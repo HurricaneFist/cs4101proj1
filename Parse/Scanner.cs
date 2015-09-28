@@ -15,8 +15,72 @@ namespace Parse
         private char[] buf = new char[BUFSIZE];
 
         public Scanner(TextReader i) { In = i; }
-  
-        // TODO: Add any other methods you need
+
+        public bool isWhiteSpace(char ch)
+        {
+            if ( ch ==  1 || //start of text
+                 ch ==  9 || //horizontal tab
+                 ch == 10 || //new line
+                 ch == 11 || //vertical tab
+                 ch == 12 || //form feed
+                 ch == 13 || //carriage return
+                 ch == 32 || //space
+               )
+               return true;
+            else return false;
+        }
+
+        public bool isInitial(char ch)
+        {
+            if (isLetter(ch) || isSpecialInitial)
+                return true;
+            else return false;
+        }
+
+        public bool isLetter(char ch)
+        {
+            if (ch >= 'A' && ch <= 'Z' ||
+                ch >= 'a' && ch <= 'z' ||)
+                return true;
+            else return false;
+        }
+
+        public bool isSpecialInitial(char ch)
+        {
+            if (ch == '!' || ch == '$' || ch == '%' || ch == '&' || ch == '*' ||
+                ch == '/' || ch == ':' || ch == '<' || ch == '=' || ch == '>' ||
+                ch == '?' || ch == '^' || ch == '_' || ch == '~')
+                return true;
+            else return false;
+        }
+
+        public bool isSubsequent(char ch)
+        {
+            if (isInitial(ch) || isDigit(ch) || isSpecialSubsequent(ch))
+                return true;
+            return false;
+        }
+
+        public bool isDigit(char ch)
+        {
+            if (ch >= '0' && ch <= '9')
+                return true;
+            else return false;
+        }
+
+        public bool isSpecialSubsequent(char ch)
+        {
+            if (ch == '+' || ch == '-' || ch == '.' || ch == '@')
+                return true;
+            else return false;
+        }
+
+        public bool isPeculiarIdent(char ch)
+        {
+            if (ch == '+' || ch == '-')
+                return true;
+            else return false;
+        }
 
         public Token getNextToken()
         {
@@ -24,17 +88,29 @@ namespace Parse
 
             try
             {
-                // It would be more efficient if we'd maintain our own
-                // input buffer and read characters out of that
-                // buffer, but reading individual characters from the
-                // input stream is easier.
                 ch = In.Read();
-   
-                // TODO: skip white space and comments
 
                 if (ch == -1)
+                {
                     return null;
-        
+                }
+
+                // Skip white space
+                else if ( isWhiteSpace(ch) )
+                {
+                    return getNextToken();
+                }
+
+                // Skip comments (comments begin with a single semicolon)
+                else if (ch == ';')
+                {
+                    while (In.Peek() != 10) //while peek is not a new line
+                    {
+                        In.Next();          //do nothing to it--skip it
+                    }
+                    return getNextToken();
+                }
+
                 // Special characters
                 else if (ch == '\'')
                     return new Token(TokenType.QUOTE);
@@ -45,12 +121,11 @@ namespace Parse
                 else if (ch == '.')
                     // We ignore the special identifier `...'.
                     return new Token(TokenType.DOT);
-                
+
                 // Boolean constants
                 else if (ch == '#')
                 {
                     ch = In.Read();
-
                     if (ch == 't')
                         return new Token(TokenType.TRUE);
                     else if (ch == 'f')
@@ -68,38 +143,62 @@ namespace Parse
                     }
                 }
 
-                // String constants
+                // String constants -> scan a string into the buffer variable buf
                 else if (ch == '"')
                 {
-                    // TODO: scan a string into the buffer variable buf
-                    return new StringToken(new String(buf, 0, 0));
+                    int count = 0;
+                    while (In.Peek() != '"')    // If we aren't reading the end of the string...
+                    {
+                        buf[count] = In.Read(); // update next item in buf array
+                        count++;                // update counter
+                    }
+                    In.Read();                  // read the next double quote and do nothing
+                                                    // new String(char*, starting position, length of string)
+                    return new StringToken(new String( buf, 0, count)); //count because length increases when count increases
                 }
 
-    
-                // Integer constants
-                else if (ch >= '0' && ch <= '9')
-                {
-                    int i = ch - '0';
-                    // TODO: scan the number and convert it to an integer
 
+                // Integer constants
+                else if (isDigit(ch))
+                {
+                    int count = 0;
+                    buf[count] = ch;                             // save the integer in a string
+                    while (In.Peek() >= '0' && In.Peek() <= '9') // while the next char is a number
+                    {
+                        buf[count+1]= In.Read();                 // append each proceeding digit of the integer to that string
+                        count++;
+                    }
+                    int i = parseInt(new String(buf,0,count+1)); // convert char array to string to int
+                                                                 // count+1 because when count=0, length=1
                     // make sure that the character following the integer
                     // is not removed from the input stream
                     return new IntToken(i);
                 }
-        
-                // Identifiers
-                else if (ch >= 'A' && ch <= 'Z'
-                         // or ch is some other valid first character
-                         // for an identifier
-                         ) {
-                    // TODO: scan an identifier into the buffer
 
+                // Identifiers
+                else if (isInitial(ch) || isPeculiarIdent(ch))
+                {
+                    if (isPeculiarIdent(ch))
+                    {
+                        return new IdentToken(new String(ch, 0, 1));
+                    }
+                    else
+                    {
+                        int count = 0;      // initialize a counter
+                        buf[count] = ch;    // store initial to char array
+                        while (isSubsequent(In.Peek()))
+                        {
+                            buf[count+1] = In.Read(); // update the buf array with subsequent chars of the identifier
+                            count++;
+                        }
+                        return new IdentToken(new String(buf, 0, count+1).ToLower());
+                        // to lower case because scheme is not case sensitive in regards to identifiers
+                        // count+1 because when count=0, length=1
+                    }
                     // make sure that the character following the integer
                     // is not removed from the input stream
-
-                    return new IdentToken(new String(buf, 0, 0));
                 }
-    
+
                 // Illegal character
                 else
                 {
@@ -117,4 +216,3 @@ namespace Parse
     }
 
 }
-
