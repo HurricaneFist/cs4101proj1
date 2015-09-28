@@ -84,7 +84,7 @@ namespace Parse
 
         public Token getNextToken()
         {
-            int ch;
+            char ch;
 
             try
             {
