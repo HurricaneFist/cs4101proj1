@@ -18,11 +18,10 @@ namespace Tree
 	    // There got to be a more efficient way to print n spaces.
 	    for (int i = 0; i < n; i++)
                 Console.Write(" ");
-
-            if (boolVal)
-                Console.WriteLine("#t");
-            else
-                Console.WriteLine("#f");
+        if (boolVal)
+            Console.WriteLine("#t");
+        else
+            Console.WriteLine("#f");
         }
     }
 }
