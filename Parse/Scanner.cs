@@ -170,7 +170,8 @@ namespace Parse {
                     }
                     In.Read();                  		// Read the next double quote and do nothing
 					string s = new string(buf);			// Create a string from the char array buf[]
-					buf = new char[BUFSIZE];			// Reinitialize buf[] because it will be used again for subsequent strings, integers, and identifiers
+					buf = new char[BUFSIZE];			// Reinitialize buf[] because it will be used again for 
+														// subsequent strings, integers, and identifiers
                     return new StringToken(s);
                 }
 					
@@ -185,7 +186,8 @@ namespace Parse {
                         count++;						// And update the counter
                     }
 					int i = int.Parse(new string(buf)); // Convert buf[] to a string then to an int
-					buf = new char[BUFSIZE];			// Reinitialize buf[] because it will be used again for subsequent strings, integers, and identifiers 
+					buf = new char[BUFSIZE];			// Reinitialize buf[] because it will be used again for
+														// subsequent strings, integers, and identifiers 
 					return new IntToken(i);
                 }
 
@@ -203,8 +205,11 @@ namespace Parse {
 							buf[count+1] = (char)In.Read(); 	// Store it in buf[]
 							count++;							// And update the counter
                         }
-						string s = new string(buf).ToLower();	// Convert buf[] to a string and set all letters to lowercase because Scheme is not case-sensitive in regards to identifiers
-						buf = new char[BUFSIZE];				// Reinitialize buf[] because it will be used again for subsequent strings, integers, and identifiers
+						string s = new string(buf).ToLower();	// Convert buf[] to a string and set all letters to 
+																// lowercase because Scheme is not case-sensitive in 
+																// regards to identifiers
+						buf = new char[BUFSIZE];				// Reinitialize buf[] because it will be used again for 
+																// subsequent strings, integers, and identifiers
                         return new IdentToken(s);
                     }
                 }
