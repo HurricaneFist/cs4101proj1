@@ -162,9 +162,11 @@ namespace Parse {
 				// String constants => Scan a string into the char array buf[] one char at a time
 				// Strings begin and end with double quotes
 
-                else if (ch == '"') {
+				else if (	  ch == '"' ||
+						 (int)ch == 8220  ) {
                     int count = 0;						// Initialize a counter to store items in the array
-					while ((char)In.Peek() != '"') {	// If we aren't reading the end of the string
+					while ((char)In.Peek() != '"' ||
+						         In.Peek() != 8221) {	// If we aren't reading the end of the string
 						buf[count] = (char)In.Read();	// Store next char into buf[]
                         count++;                		// And update the counter
                     }
