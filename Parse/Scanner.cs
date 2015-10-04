@@ -160,13 +160,16 @@ namespace Parse {
                 }
 
 				// String constants => Scan a string into the char array buf[] one char at a time
-				// Strings begin and end with double quotes
+				// Strings begin and end with double quotes (either regular and accented)
 
-				else if (	  ch == '"' ||
-						 (int)ch == 8220  ) {
+				else if (ch == '\"' || 
+					(int)ch == 8220 || 
+					(int)ch == 8221) {
+
                     int count = 0;						// Initialize a counter to store items in the array
-					while ((char)In.Peek() != '"' ||
-						         In.Peek() != 8221) {	// If we aren't reading the end of the string
+					while ((char)In.Peek() != '\"' ||	// If we aren't reading the end of the string 
+								 In.Peek() == 8220 || 
+								 In.Peek() == 8221) {
 						buf[count] = (char)In.Read();	// Store next char into buf[]
                         count++;                		// And update the counter
                     }
@@ -221,7 +224,7 @@ namespace Parse {
 
 				else {
 					Console.Error.WriteLine("Illegal input character \'"
-						+ (char)ch + " " + (int)ch + '\'');
+						+ (char)ch + "\' " + (int)ch);
 					return getNextToken();
 				}
             
