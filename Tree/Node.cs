@@ -3,8 +3,8 @@
 namespace Tree
 {
     public class Node
-    {
-        // The argument of print(int) is the number of characters to indent.
+	{
+		// The argument of print(int) is the number of characters to indent.
         // Every subclass of Node must implement print(int).
         public virtual void print(int n) { }
 
@@ -32,7 +32,6 @@ namespace Tree
         // evaluating them, we need some helper functions that test
         // the type of a node and that extract some information.
 
-        // TODO: implement these in the appropriate subclasses to return true.
         public virtual bool isBool()   { return false; }  // BoolLit
         public virtual bool isNumber() { return false; }  // IntLit
         public virtual bool isString() { return false; }  // StringLit
