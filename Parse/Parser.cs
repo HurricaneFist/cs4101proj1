@@ -28,7 +28,7 @@
 // it can be reread by parseExp() or an alternative version of
 // parseExp() must be called.
 //
-// If EOF is reached (i.e., if the scanner returns a NULL) token,
+// If EOF is reached (i.e., if the scanner returns a NULL token),
 // the parser returns a NULL tree.  In case of a parse error, the
 // parser discards the offending token (which probably was a DOT
 // or an RPAREN) and attempts to continue parsing with the next token.
@@ -40,8 +40,13 @@ using Tree;
 namespace Parse {
 
 	public class Parser {
-	
-        private Scanner scanner;
+
+        private Scanner scanner;	//Takes a Scanner object as input
+
+		public int cn = 0;			// Tool used to keep track of cons nodes for debugging
+
+		// Initialize nodes that only ever need to be created once
+		// All false, true, and nil nodes will simply be pointers to these nodes
 
 		public Node nodeFalse = new BoolLit(false);
 		public Node nodeTrue  = new BoolLit(true);
@@ -49,94 +54,131 @@ namespace Parse {
 
         public Parser(Scanner s) { scanner = s; }
 
-		public Node nilNode(){
-			Console.WriteLine ("()");
-			return nodeNil;
-		}
-
+		// Takes a token as input and makes a node out of it
 		public Node makeNode (Token t) {
-			TokenType tt = t.getType();
 
-			if (tt == TokenType.LPAREN) {
-				Console.WriteLine ("LPAREN");
-				return parseRest(scanner.getNextToken());
+			if (t == null)
+				return nodeNil;
+			
+			else {
+				TokenType tt = t.getType();
+
+				// If this token is an LPAREN and the next token is an RPAREN, return Nil
+				// Otherwise, parse the rest of the list, starting with the next token
+
+				if (tt == TokenType.LPAREN) {
+					t = scanner.getNextToken();
+					if (t.getType () == TokenType.RPAREN)
+						return nodeNil;
+					return parseRest(t);
+				}
+
+				// If token is TRUE or FALSE, return pointers to the nodes we initialized at the beginning
+
+				else if (tt == TokenType.FALSE) return nodeFalse;
+				else if (tt == TokenType.TRUE)	return nodeTrue;
+
+				// What follows a QUOTE token should be treated as a regular list to parse
+
+				else if (tt == TokenType.QUOTE)	return parseExp();
+
+				// For INT, STRING, and IDENT tokens, just return their respective nodes
+				// while keeping node data consistent with the original token values
+
+				else if (tt == TokenType.INT) 	return new IntLit(t.getIntVal());
+				else if (tt == TokenType.STRING)return new StringLit(t.getStringVal());
+				else /*(tt == TokenType.IDENT)*/return new Ident(t.getName());
 			}
 
-			else if (tt == TokenType.FALSE) {
-				Console.WriteLine ("FALSE : #f");
-				return nodeFalse;
-			}
-
-			else if (tt == TokenType.TRUE) {
-				Console.WriteLine ("TRUE : #t");
-				return nodeTrue;
-			}
-
-			else if (tt == TokenType.QUOTE) {
-				Console.WriteLine ("QUOTE : \'");
-				return parseExp();
-			}
-
-			else if (tt == TokenType.INT) {
-				Console.WriteLine ("INT : " + t.getIntVal());
-				return new IntLit(t.getIntVal());
-			}
-
-			else if (tt == TokenType.STRING) {
-				Console.WriteLine ("STRING : " + t.getStringVal());
-				return new StringLit(t.getStringVal());
-			}
-
-			else {//(tt == TokenType.IDENT)
-				Console.WriteLine ("IDENT : " + t.getName());
-				return new Ident(t.getName());
-			}
 		}
 
+		// Get the next token, make a node out of it, and return that node
         public Node parseExp() {
 			Token t = scanner.getNextToken();
 			return makeNode (t);
         }
 
+		// Take a token as input, make a node out of it, and return that node
 		public Node parseExp(Token t) {
 			return makeNode (t);
 		}
   		
-		//    rest -> )
-		//         |  exp+ [. exp] )
-        protected Node parseRest(Token t) {
-			
+		// Parse the rest of the list
+        protected Node parseRest(Token t1) {
 
-			if (t.getType() == TokenType.RPAREN) {
-				Console.WriteLine ("NIL : ()");
+			// We need the type of this token so we can find out
+			// what kind of nodes we need to make and where to put them
+			TokenType tt1 = t1.getType ();
+
+			// If this token is a RPAREN, just return Nil
+			if (tt1 == TokenType.RPAREN) {
 				return nodeNil;
 			}
 
-			else {
-				Token t2 = scanner.getNextToken ();
-				TokenType tt2 = t2.getType();
-				Console.WriteLine ("CONS");
+			// Else, find out what the next token and its type is
+			Token t2 = scanner.getNextToken();
+			TokenType tt2 = t2.getType();
 
+			// If this token is a LPAREN, it is about to get complicated.
+			if (tt1 == TokenType.LPAREN) {
+
+				// If this and the next token are a LPAREN-RPAREN pair,
+				// return a Cons node whose car is Nil and cdr is the parsing of the rest of the list
 				if (tt2 == TokenType.RPAREN) {
-					return new Cons(parseExp(t), nilNode());
+					return new Cons (
+						nodeNil, 
+						parseRest(scanner.getNextToken()),
+						cn++);
 				}
 
-				else if (tt2 == TokenType.DOT) {
-					return new Cons(parseExp(t), parseExp(t2));
-				}
-
-				else { // if (t2 == exp)
-					return new Cons(parseExp(t), parseRest(t2));
+				// If this token is a LPAREN and the next token is anything besides the RPAREN,
+				// that means that this LPAREN is starting a new list of exps inside of an exp
+				// and the next token is a part of the new inner list
+				else {
+					return new Cons (							// Make a Cons node
+						(new Cons(								// car
+							parseExp (t2),							// car - the next token
+							parseRest(scanner.getNextToken()),		// cdr - the parseRest of the next-next token
+							cn++)									//
+						),
+						parseRest (scanner.getNextToken()),		//cdr - the parseRest of the next-next-next token
+						cn++
+					);
 				}
 			}
+
+			// If the next token is a RPAREN, we can infer that it is the end of the list,
+			// and we can return a Cons node that parses the current token in its car
+			// and puts Nil in its cdr
+			else if (tt2 == TokenType.RPAREN) {
+				return new Cons (parseExp (t1), nodeNil, cn++);
+			}
+
+			// If this token is an exp and the next token is a DOT,
+			// finish parsing this exp in the car of a new Cons node,
+			// and parse the next-next token as an exp
+			// because we know it will be the last exp since it follows a DOT
+			else if (tt2 == TokenType.DOT) {
+				return new Cons (parseExp (t1), parseExp (), cn++);
+			}
+
+			// At this point, we know that this token is an exp and the next token is not a LPAREN, RPAREN, or DOT.
+			// Therefore, we are free to parse this token into the car of a Cons node
+			// and parse the rest of of the list in the cdr of this Cons node
+			else {
+				return new Cons(parseExp(t1), parseRest(t2), cn++);
+			}
+
         }
 
 		public static int Main (string[] args) {
 			
 			Scanner scanner = new Scanner (Console.In);
 			Parser parser = new Parser (scanner);
+
 			Node root;
 			root = parser.parseExp ();
+			root.print(1);
 			/*
 			while (tok != null) {
 				//TokenType tt = tok.getType();
@@ -154,9 +196,9 @@ namespace Parse {
 				tok = scanner.getNextToken();
 			}
 			*/
-
 			return 0;
 		}
 
     }
+
 }
