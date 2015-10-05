@@ -4,6 +4,7 @@ namespace Tree
 {
     public class Node
 	{
+		public virtual string getName() { return ""; }
 		// The argument of print(int) is the number of characters to indent.
         // Every subclass of Node must implement print(int).
         public virtual void print(int n) { }

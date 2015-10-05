@@ -13,6 +13,10 @@ namespace Tree
             name = n;
         }
 
+		public override string getName() {
+			return name;
+		}
+
 		public override bool isSymbol() { return true; }
 
         public override void print(int n)
