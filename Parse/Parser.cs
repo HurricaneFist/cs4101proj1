@@ -78,9 +78,17 @@ namespace Parse {
 				else if (tt == TokenType.FALSE) return nodeFalse;
 				else if (tt == TokenType.TRUE)	return nodeTrue;
 
-				// What follows a QUOTE token should be treated as a regular list to parse
-
-				else if (tt == TokenType.QUOTE)	return parseExp();
+				// If this token in a QUOTE, make a Cons node
+				// with ' as its car
+				// and the parsing of a node (or node tree) as its cdr
+				// because what follows a QUOTE token should be treated as a regular list to parse.
+				else if (tt == TokenType.QUOTE)	{
+					return new Cons (
+						new Ident ("\'"),
+						parseExp (),
+						cn++
+					);
+				}
 
 				// For INT, STRING, and IDENT tokens, just return their respective nodes
 				// while keeping node data consistent with the original token values
@@ -113,6 +121,23 @@ namespace Parse {
 			// If this token is a RPAREN, just return Nil
 			if (tt1 == TokenType.RPAREN) {
 				return nodeNil;
+			}
+
+
+			// If this token in a QUOTE, make a Cons node
+			// whose car is a Cons node that node with ' as its car and a node tree as its cdr
+			// and whose cdr is the parsing of the rest of the list
+			// because QUOTEs can identify lists within lists
+			if (tt1 == TokenType.QUOTE) {
+				return new Cons(
+					new Cons(
+						new Ident("\'"),
+						parseExp(),
+						cn++
+					),
+					parseRest(scanner.getNextToken()),
+					cn++
+				);
 			}
 
 			// Else, find out what the next token and its type is
@@ -179,23 +204,6 @@ namespace Parse {
 			Node root;
 			root = parser.parseExp ();
 			root.print(1);
-			/*
-			while (tok != null) {
-				//TokenType tt = tok.getType();
-				//Console.Write(tt + " ");
-
-				if (tt == TokenType.INT)
-					Console.WriteLine(", intVal = " + tok.getIntVal());
-				else if (tt == TokenType.STRING)
-					Console.WriteLine(", stringVal = " + tok.getStringVal());
-				else if (tt == TokenType.IDENT)
-					Console.WriteLine(", name = " + tok.getName());
-				else
-					Console.WriteLine();
-				
-				tok = scanner.getNextToken();
-			}
-			*/
 			return 0;
 		}
 
