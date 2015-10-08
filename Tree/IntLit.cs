@@ -2,26 +2,27 @@
 
 using System;
 
-namespace Tree
-{
-    public class IntLit : Node
-    {
+namespace Tree {
+
+    public class IntLit : Node {
+
         private int intVal;
 
-        public IntLit(int i)
-        {
+        public IntLit(int i) {
             intVal = i;
         }
 
-		public override bool isNumber() { return true; }
+		public override bool isNumber() {
+            return true;
+        }
 
-        public override void print(int n)
-        {
-	    // There got to be a more efficient way to print n spaces.
-	    for (int i = 0; i < n; i++)
-                Console.Write(" ");
-
+        public override void print(int n) {
+            Special.indent(n)
+            //for (int i = 0; i < n; i++)
+            //    Console.Write(" ");
+            
             Console.WriteLine(intVal);
         }
+
     }
 }

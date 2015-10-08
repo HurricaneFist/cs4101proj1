@@ -4,7 +4,6 @@ namespace Tree
 {
     public class Node
 	{
-		public virtual string getName() { return ""; }
 		// The argument of print(int) is the number of characters to indent.
         // Every subclass of Node must implement print(int).
         public virtual void print(int n) { }
@@ -24,8 +23,7 @@ namespace Tree
         // encode that in the sign bit of n. If you need additional parameters,
         // make sure that you define the method print in all the appropriate
         // subclasses of Node as well.
-        public virtual void print(int n, bool p)
-        {
+        public virtual void print(int n, bool p) {
             print(n);
         }
 
@@ -40,13 +38,23 @@ namespace Tree
         public virtual bool isNull()   { return false; }  // Nil
         public virtual bool isPair()   { return false; }  // Cons
 
-        // TODO: Report an error in these default methods and implement them
-        // in class Cons.  After setCar, a Cons cell needs to be `parsed' again
-        // using parseList.
-        public virtual Node getCar() { return null; }
-        public virtual Node getCdr() { return null; }
-        public virtual void setCar(Node a) { }
-        public virtual void setCdr(Node d) { }
+        public virtual Node getCar() {
+            throw new System.InvalidOperationException("No car to get.");
+            return null;
+        }
+
+        public virtual Node getCdr() {
+            throw new System.InvalidOperationException("No cdr to get.");
+            return null;
+        }
+
+        public virtual void setCar(Node a) {
+            throw new System.InvalidOperationException("No car to set.");
+        }
+
+        public virtual void setCdr(Node d) {
+            throw new System.InvalidOperationException("No cdr to set.");
+        }
+
     }
 }
-
