@@ -12,10 +12,13 @@ namespace Tree
 	public Cond() { }
 
         public override void print(Node t, int n, bool p)
-        { 
-            // TODO: Implement this function.
+        {
+            // Indent
+
+            for (int i = 0; i < n; i++) {
+                Console.Write("    ");
+            }
+            
         }
     }
 }
-
-

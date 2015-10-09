@@ -2,27 +2,27 @@
 
 using System;
 
-namespace Tree
-{
-    public class StringLit : Node
-    {
+namespace Tree {
+
+    public class StringLit : Node {
+
         private string stringVal;
 
-        public StringLit(string s)
-        {
+        public StringLit(string s) {
             stringVal = s;
+            //Console.WriteLine("stringLitNode " + s);
         }
 
 		public override bool isString() { return true; }
 
-        public override void print(int n)
-        {
-	    // There got to be a more efficient way to print n spaces.
-	    for (int i = 0; i < n; i++)
-                Console.Write(" ");
+        public override void print(int n) {
+            // There got to be a more efficient way to print n spaces.
+            //for (int i = 0; i < n; i++){
+            //    Console.Write(" ");
+            //}
 
-            Console.WriteLine("\"" + stringVal + "\"");
+            Console.Write("\"" + stringVal + "\"");
         }
+
     }
 }
-
