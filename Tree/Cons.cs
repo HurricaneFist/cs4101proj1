@@ -9,36 +9,21 @@ namespace Tree
         private Node car;
         private Node cdr;
 		private Special form;
-		private int cn;
+		//private int cn;
 
-        public Cons(Node a, Node d, int i) {
-			cn = i;
+        public Cons(Node a, Node d, int i)
+        {
+			//cn = i;
             car = a;
             cdr = d;
-			parseList();
-        }
-
-		public override bool isPair() {
-            return true;
-        }
-
-		public override Node getCar() {
-            return car;
-        }
-
-		public override Node getCdr() {
-            return cdr;
-        }
-
-        public virtual void setCar(Node a) {
-            car = a;
             parseList();
         }
 
-        public virtual void setCdr(Node d) {
-            cdr = d;
-            parseList();
-        }
+		public override bool isPair() { return true; }
+
+		public override Node getCar() { return car; }
+
+		public override Node getCdr() { return cdr; }
 
         // parseList() `parses' special forms, constructs an appropriate
         // object of a subclass of Special, and stores a pointer to that
@@ -48,43 +33,48 @@ namespace Tree
         // parseList only look at the car for selecting the appropriate
         // object from the Special hierarchy and to leave the rest of
         // parsing up to the interpreter.
-        void parseList() {
-            if (car.isSymbol ()) {
-                if (name.Equals ("\'")) {
+        public void parseList() {
+            if (car.isSymbol()) {
+                string name = car.getName();
+                //Console.Write(cn + " " + name);
+
+                if (name == "\'" || (String.Compare(name, "quote", true) == 0)) {
 					form = new Quote ();
+                    //Console.WriteLine("  quote");
 				}
-
-                else if (name.Equals ("lambda")) {
+                else if (String.Compare(name, "lambda", true) == 0) {
 					form = new Lambda ();
+                    //Console.WriteLine("  lambda");
 				}
-
-				else if (name.Equals ("begin")) {
+				else if (String.Compare(name, "begin", true) == 0) {
 					form = new Begin ();
+                    //Console.WriteLine("  begin");
 				}
-
-				else if (name.Equals ("if")) {
+				else if (String.Compare(name, "if", true) == 0) {
 					form = new If ();
+                    //Console.WriteLine("  if");
 				}
-
-				else if (name.Equals ("let")) {
+				else if (String.Compare(name, "let", true) == 0) {
 					form = new Let ();
+                    //Console.WriteLine("  let");
 				}
-
-                else if (name.Equals ("cond")) {
+                else if (String.Compare(name, "cond", true) == 0) {
                     form = new Cond ();
+                    //Console.WriteLine("  cond");
                 }
-
-				else if (name.Equals("define")) {
+				else if (String.Compare(name, "define", true) == 0) {
                     form = new Define();
+                    //Console.WriteLine("  define");
                 }
-
-				else if (name.Equals ("set")) {
+				else if (String.Compare(name, "set!", true) == 0) {
 					form = new Set ();
+                    //Console.WriteLine("  set!");
 				}
-
                 else {
                     form = new Regular();
+                    //Console.WriteLine("  reg");
                 }
+
 			}
         }
 
@@ -93,15 +83,14 @@ namespace Tree
             /*
 			Console.WriteLine("cons" + cn);
 			Console.WriteLine("cons" + cn + "car");
-			getCar().print(n);
+			car.print(n);
 			Console.WriteLine("cons" + cn + "cdr");
-			getCdr ().print (n);
+			cdr.print(n);
             */
         }
 
         public override void print(int n, bool p) {
             form.print(this, n, p);
         }
-
     }
 }

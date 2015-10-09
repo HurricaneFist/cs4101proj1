@@ -4,5 +4,8 @@ all:
 clean:
 	@rm -f *~ */*~
 
+parser:
+	mcs Parse/Parser.cs Parse/Scanner.cs Tokens/*.cs Tree/*.cs Special/*.cs
+
 veryclean:
 	@rm -f SPP.exe *~ */*~

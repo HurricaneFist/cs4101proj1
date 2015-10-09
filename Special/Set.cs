@@ -10,7 +10,6 @@ namespace Tree {
 
         // !!!!
         public override void print(Node t, int n, bool p) {
-            indent(n);
 
             if (!p) {
                 Console.Write("(");
@@ -21,11 +20,11 @@ namespace Tree {
             // --> Set the identifier x to be (+ 2 3)
 
             Node car = t.getCar();
-            if (car.isNil()) {
+            if (car.isNull()) {
                 car.print(n, false);
             }
             else {
-                car.print(n, true)
+                car.print(n, true);
             }
 
             Node cdr = t.getCdr();

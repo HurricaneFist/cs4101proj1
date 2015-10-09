@@ -5,25 +5,25 @@ using System;
 namespace Tree {
 
     public class BoolLit : Node {
-
         private bool boolVal;
 
         public BoolLit(bool b) {
             boolVal = b;
+            //Console.Write("boolLitNode ");
+            //if (boolVal)    Console.WriteLine("#t");
+            //else            Console.WriteLine("#f");
         }
 
-		public override bool isBool() {
-            return true;
-        }
+		public override bool isBool() { return true; }
 
         public override void print(int n) {
-            Special.indent(n)
-            //for (int i = 0; i < n; i++)
+            // There got to be a more efficient way to print n spaces.
+            //for (int i = 0; i < n; i++) {
             //    Console.Write(" ");
-            if (boolVal)
-                Console.WriteLine("#t");
-            else
-                Console.WriteLine("#f");
+            //}
+
+            if (boolVal)    Console.Write("#t");
+            else            Console.Write("#f");
         }
 
     }

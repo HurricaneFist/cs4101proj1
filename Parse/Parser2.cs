@@ -41,11 +41,9 @@ namespace Parse {
 
 	public class Parser {
 
-		// Take a Scanner object as input
-        private Scanner scanner;
+        private Scanner scanner;	//Takes a Scanner object as input
 
-		// Tool used to keep track of cons nodes for debugging
-		public int cn = 0;
+		public int cn = 0;			// Tool used to keep track of cons nodes for debugging
 
 		// Initialize nodes that only ever need to be created once
 		// All false, true, and nil nodes will simply be pointers to these nodes
@@ -53,8 +51,6 @@ namespace Parse {
 		public Node nodeFalse = new BoolLit(false);
 		public Node nodeTrue  = new BoolLit(true);
 		public Node nodeNil   = new Nil();
-
-		// Implement constructor
 
         public Parser(Scanner s) { scanner = s; }
 
@@ -67,25 +63,25 @@ namespace Parse {
 			else {
 				TokenType tt = t.getType();
 
-				// If this token is a LPAREN, parse the rest of the list
+				// If this token is an LPAREN and the next token is an RPAREN, return Nil
+				// Otherwise, parse the rest of the list, starting with the next token
+
 				if (tt == TokenType.LPAREN) {
-					return parseRest();
+					t = scanner.getNextToken();
+					if (t.getType () == TokenType.RPAREN)
+						return nodeNil;
+					return parseRest(t);
 				}
 
-				// If token is TRUE or FALSE,
-				// return pointers to the nodes we initialized at the beginning
-				else if (tt == TokenType.FALSE) {
-					return nodeFalse;
-				}
-				else if (tt == TokenType.TRUE) {
-					return nodeTrue;
-				}
+				// If token is TRUE or FALSE, return pointers to the nodes we initialized at the beginning
+
+				else if (tt == TokenType.FALSE) return nodeFalse;
+				else if (tt == TokenType.TRUE)	return nodeTrue;
 
 				// If this token in a QUOTE, make a Cons node
 				// with ' as its car
 				// and the parsing of a node (or node tree) as its cdr
-				// because what follows a QUOTE token should be treated
-				// as a regular list to parse.
+				// because what follows a QUOTE token should be treated as a regular list to parse.
 				else if (tt == TokenType.QUOTE)	{
 					return new Cons (
 						new Ident ("\'"),
@@ -94,15 +90,12 @@ namespace Parse {
 					);
 				}
 
-				// For INT, STRING, and IDENT tokens,
-				// just return their respective nodes while keeping node data
-				// consistent with the original token values
-				else if (tt == TokenType.INT)
-					return new IntLit(t.getIntVal());
-				else if (tt == TokenType.STRING)
-					return new StringLit(t.getStringVal());
-				else /*(tt == TokenType.IDENT)*/
-					return new Ident(t.getName());
+				// For INT, STRING, and IDENT tokens, just return their respective nodes
+				// while keeping node data consistent with the original token values
+
+				else if (tt == TokenType.INT) 	return new IntLit(t.getIntVal());
+				else if (tt == TokenType.STRING)return new StringLit(t.getStringVal());
+				else /*(tt == TokenType.IDENT)*/return new Ident(t.getName());
 			}
 
 		}
@@ -119,9 +112,7 @@ namespace Parse {
 		}
 
 		// Parse the rest of the list
-        protected Node parseRest() {
-			// Current token
-			Token t1 = scanner.getNextToken();
+        protected Node parseRest(Token t1) {
 
 			// We need the type of this token so we can find out
 			// what kind of nodes we need to make and where to put them
@@ -132,15 +123,59 @@ namespace Parse {
 				return nodeNil;
 			}
 
-			// Otherwise, find out what the next token and its type is
+
+			// If this token in a QUOTE, make a Cons node
+			// whose car is a Cons node that node with ' as its car and a node tree as its cdr
+			// and whose cdr is the parsing of the rest of the list
+			// because QUOTEs can identify lists within lists
+			if (tt1 == TokenType.QUOTE) {
+				return new Cons(
+					new Cons(
+						new Ident("\'"),
+						parseExp(),
+						cn++
+					),
+					parseRest(scanner.getNextToken()),
+					cn++
+				);
+			}
+
+			// Else, find out what the next token and its type is
 			Token t2 = scanner.getNextToken();
 			TokenType tt2 = t2.getType();
 
-			// If the next token is a RPAREN,
-			// we can infer that it will be the end of the list, and we can
-			// return a Cons node that parses the current token in its car
+			// If this token is a LPAREN, it is about to get complicated.
+			if (tt1 == TokenType.LPAREN) {
+
+				// If this and the next token are a LPAREN-RPAREN pair,
+				// return a Cons node whose car is Nil and cdr is the parsing of the rest of the list
+				if (tt2 == TokenType.RPAREN) {
+					return new Cons (
+						nodeNil,
+						parseRest(scanner.getNextToken()),
+						cn++);
+				}
+
+				// If this token is a LPAREN and the next token is anything besides the RPAREN,
+				// that means that this LPAREN is starting a new list of exps inside of an exp
+				// and the next token is a part of the new inner list
+				else {
+					return new Cons (							// Make a Cons node
+						(new Cons(								// car
+							parseExp (t2),							// car - the next token
+							parseRest(scanner.getNextToken()),		// cdr - the parseRest of the next-next token
+							cn++)									//
+						),
+						parseRest (scanner.getNextToken()),		//cdr - the parseRest of the next-next-next token
+						cn++
+					);
+				}
+			}
+
+			// If the next token is a RPAREN, we can infer that it is the end of the list,
+			// and we can return a Cons node that parses the current token in its car
 			// and puts Nil in its cdr
-			if (tt2 == TokenType.RPAREN) {
+			else if (tt2 == TokenType.RPAREN) {
 				return new Cons (parseExp (t1), nodeNil, cn++);
 			}
 
@@ -152,23 +187,11 @@ namespace Parse {
 				return new Cons (parseExp (t1), parseExp (), cn++);
 			}
 
-			// At this point, we know that this token is an exp
-			// and the next token is not a RPAREN, or DOT.
-			// Therefore, we can infer that the next token must be an exp.
-			// It then follows that we have to make
-			// the car of this Cons node to be the parsing of the current token,
-			// the cadr be the parsing of the next token,
-			// and the cddr be the parsing of the rest of the list
+			// At this point, we know that this token is an exp and the next token is not a LPAREN, RPAREN, or DOT.
+			// Therefore, we are free to parse this token into the car of a Cons node
+			// and parse the rest of of the list in the cdr of this Cons node
 			else {
-				return new Cons(
-					parseExp(t1),		// car
-					new Cons(
-						parseExp(t2),	// cadr
-						parseRest(),	// cddr
-						cn++
-					),
-					cn++
-				);
+				return new Cons(parseExp(t1), parseRest(t2), cn++);
 			}
 
         }
