@@ -27,6 +27,10 @@ namespace Tree
             print(n);
         }
 
+        public virtual string getName() {
+            return "";
+        }
+
         // For parsing Cons nodes, for printing trees, and later for
         // evaluating them, we need some helper functions that test
         // the type of a node and that extract some information.
@@ -35,28 +39,15 @@ namespace Tree
         public virtual bool isNumber() { return false; }  // IntLit
         public virtual bool isString() { return false; }  // StringLit
         public virtual bool isSymbol() { return false; }  // Ident
-        public virtual bool isNull()   { return false; }  // Nil
+        public virtual bool isNil()   { return false; }  // Nil
         public virtual bool isPair()   { return false; }  // Cons
 
-        public virtual string getName() {
-            return "";
-        }
-
-        public virtual Node getCar() {
-            throw new System.InvalidOperationException("No car to get.");
-        }
-
-        public virtual Node getCdr() {
-            throw new System.InvalidOperationException("No cdr to get.");
-        }
-
-        public virtual void setCar(Node a) {
-            throw new System.InvalidOperationException("No car to set.");
-        }
-
-        public virtual void setCdr(Node d) {
-            throw new System.InvalidOperationException("No cdr to set.");
-        }
-
+        // TODO: Report an error in these default methods and implement them
+        // in class Cons.  After setCar, a Cons cell needs to be `parsed' again
+        // using parseList.
+        public virtual Node getCar() { return null; }
+        public virtual Node getCdr() { return null; }
+        public virtual void setCar(Node a) { }
+        public virtual void setCdr(Node d) { }
     }
 }

@@ -12,15 +12,16 @@ namespace Tree {
             print(n, false);
         }
 
-		public override bool isNull() {
-            return true;
-        }
+		public override bool isNil() { return true; }
 
         public override void print(int n, bool p) {
-            if (p)
-                Console.Write(")");
-            else
-                Console.WriteLine("()");
+            // There got to be a more efficient way to print n spaces.
+            //for (int i = 0; i < n; i++) {
+            //    Console.Write(" ");
+            //}
+
+            if (p)  Console.Write(")");
+            else    Console.Write("()");
         }
 
     }
