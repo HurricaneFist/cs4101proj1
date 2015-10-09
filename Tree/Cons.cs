@@ -19,6 +19,16 @@ namespace Tree
             parseList();
         }
 
+        public override void setFormToRegular() {
+            form = new Regular(true);
+            if (car.isPair()){
+                car.setFormToRegular();
+            }
+            if (cdr.isPair()){
+                cdr.setFormToRegular();
+            }
+        }
+
 		public override bool isPair() { return true; }
 
 		public override Node getCar() { return car; }
@@ -38,7 +48,7 @@ namespace Tree
                 string name = car.getName();
                 //Console.Write(cn + " " + name);
 
-                if (name == "\'" || (String.Compare(name, "quote", true) == 0)) {
+                if (name == "\'") {
 					form = new Quote ();
                     //Console.WriteLine("  quote");
 				}
@@ -70,12 +80,11 @@ namespace Tree
 					form = new Set ();
                     //Console.WriteLine("  set!");
 				}
-                else {
-                    form = new Regular();
-                    //Console.WriteLine("  reg");
-                }
-
 			}
+            else {
+                form = new Regular();
+                //Console.WriteLine("  reg");
+            }
         }
 
         public override void print(int n) {

@@ -5,8 +5,13 @@ using System;
 namespace Tree {
 
     public class Regular : Special {
+        private bool regulate = false;
 
         public Regular() { }
+
+        public Regular(bool b) {
+            regulate = b;
+        }
 
         // Boolean p - true if left parenthesis HAS BEEN PRINTED
         //             false if '(' has not been printed
@@ -27,8 +32,7 @@ namespace Tree {
 
             Node car = t.getCar();
             if (car.isNil()) {     // If car isNull, it is an empty list
-                //car.print(n, false);
-                Console.Write("()");// So print the empty list
+                car.print(n, false);
             }
             else {
                 car.print(n, true); // Else print the node such that the
@@ -46,7 +50,7 @@ namespace Tree {
                 Console.WriteLine();
             }
 
-            // End with a carriage return
+            //End with a carriage return
 
         }
     }
