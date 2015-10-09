@@ -38,14 +38,16 @@ namespace Tree
         public virtual bool isNull()   { return false; }  // Nil
         public virtual bool isPair()   { return false; }  // Cons
 
+        public virtual string getName() {
+            return "";
+        }
+
         public virtual Node getCar() {
             throw new System.InvalidOperationException("No car to get.");
-            return null;
         }
 
         public virtual Node getCdr() {
             throw new System.InvalidOperationException("No cdr to get.");
-            return null;
         }
 
         public virtual void setCar(Node a) {

@@ -17,13 +17,15 @@ namespace Tree {
         }
 
         public override void print(int n) {
-            Special.indent(n)
-            //for (int i = 0; i < n; i++)
-            //    Console.Write(" ");
+            /*
+            for (int i = 0; i < n; i++) {
+                Console.Write("    ");
+            }
+            */
             if (boolVal)
-                Console.WriteLine("#t");
+                Console.Write("#t");
             else
-                Console.WriteLine("#f");
+                Console.Write("#f");
         }
 
     }

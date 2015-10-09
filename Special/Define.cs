@@ -8,32 +8,41 @@ namespace Tree {
 
         public Define() { }
 
-        // !!!!
         public override void print(Node t, int n, bool p) {
-            indent(n);
+
+            Node car  = t.getCar();
+            Node cdr  = t.getCdr();
+            Node cadr = cdr.getCar();
+            Node cddr = cdr.getCdr();
+            Node caddr = cddr.getCar();
+            Node cdddr = cddr.getCdr(); // Must be Nil
+            bool isFunc = false;
+
+            if (cadr.isPair()){
+                isFunc = true;
+            }
 
             if (!p) {
                 Console.Write("(");
             }
 
-            // If this is define, shouldn't there only be two arguments after the define token?
-            // For example, (define x 0)
-            // --> Define the identifier x to be 0.
+            car.print(n, true);
+            cadr.print(n, true);
+            Console.WriteLine();
 
-            Node car = t.getCar();
-            if (car.isNil()) {
-                car.print(n, false);
-            }
-            else {
-                car.print(n, true)
+            // Indent stuff
+            if (isFunc) {
+                n++;
             }
 
-            Node cdr = t.getCdr();
-            if (cdr.isPair()) {
-                Console.Write(" ");
-            }
-            cdr.print(n, true);
+            caddr.print(n, true);
 
+            if (isFunc) {
+                n--;
+            }
+
+            cdddr.print(n, true);
         }
+
     }
 }

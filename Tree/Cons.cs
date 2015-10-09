@@ -30,12 +30,12 @@ namespace Tree
             return cdr;
         }
 
-        public virtual void setCar(Node a) {
+        public override void setCar(Node a) {
             car = a;
             parseList();
         }
 
-        public virtual void setCdr(Node d) {
+        public override void setCdr(Node d) {
             cdr = d;
             parseList();
         }
@@ -50,53 +50,63 @@ namespace Tree
         // parsing up to the interpreter.
         void parseList() {
             if (car.isSymbol ()) {
-                if (name.Equals ("\'")) {
+                string name = car.getName();
+                if (name.Equals("\'")) {
 					form = new Quote ();
+                    Console.Write("quote");
 				}
 
-                else if (name.Equals ("lambda")) {
+                if (name.Equals("lambda")) {
 					form = new Lambda ();
+                    Console.Write("lamba");
 				}
 
-				else if (name.Equals ("begin")) {
+				if (name.Equals("begin")) {
 					form = new Begin ();
+                    Console.Write("begin");
 				}
 
-				else if (name.Equals ("if")) {
+				if (name.Equals ("if")) {
 					form = new If ();
+                    Console.Write("if");
 				}
 
-				else if (name.Equals ("let")) {
+				if (name.Equals("let")) {
 					form = new Let ();
+                    Console.Write("let");
 				}
 
-                else if (name.Equals ("cond")) {
+                if (name.Equals("cond")) {
                     form = new Cond ();
+                    Console.Write("cond");
                 }
 
-				else if (name.Equals("define")) {
+				if (name.Equals("define")) {
                     form = new Define();
+                    Console.Write("define");
                 }
 
-				else if (name.Equals ("set")) {
+				if (name.Equals ("set")) {
 					form = new Set ();
+                    Console.Write("set");
 				}
 
                 else {
                     form = new Regular();
+                    Console.Write("reg");
                 }
 			}
         }
 
         public override void print(int n) {
-            form.print(this, n, false);
-            /*
+            //form.print(this, n, false);
+
 			Console.WriteLine("cons" + cn);
 			Console.WriteLine("cons" + cn + "car");
 			getCar().print(n);
 			Console.WriteLine("cons" + cn + "cdr");
-			getCdr ().print (n);
-            */
+			getCdr().print(n);
+
         }
 
         public override void print(int n, bool p) {

@@ -17,11 +17,7 @@ namespace Tree {
         }
 
         public override void print(int n) {
-            Special.indent(n)
-            //for (int i = 0; i < n; i++)
-            //    Console.Write(" ");
-            
-            Console.WriteLine(intVal);
+            Console.Write(intVal);
         }
 
     }

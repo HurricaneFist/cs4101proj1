@@ -67,7 +67,10 @@ namespace Parse {
 				// Otherwise, parse the rest of the list, starting with the next token
 
 				if (tt == TokenType.LPAREN) {
-					return parseRest();
+					t = scanner.getNextToken();
+					if (t.getType () == TokenType.RPAREN)
+						return nodeNil;
+					return parseRest(t);
 				}
 
 				// If token is TRUE or FALSE, return pointers to the nodes we initialized at the beginning
@@ -109,8 +112,8 @@ namespace Parse {
 		}
 
 		// Parse the rest of the list
-        protected Node parseRest() {
-			Token t1 = scanner.getNextToken();
+        protected Node parseRest(Token t1) {
+
 			// We need the type of this token so we can find out
 			// what kind of nodes we need to make and where to put them
 			TokenType tt1 = t1.getType ();
@@ -132,7 +135,7 @@ namespace Parse {
 						parseExp(),
 						cn++
 					),
-					parseRest(),
+					parseRest(scanner.getNextToken()),
 					cn++
 				);
 			}
@@ -141,7 +144,6 @@ namespace Parse {
 			Token t2 = scanner.getNextToken();
 			TokenType tt2 = t2.getType();
 
-			
 			// If this token is a LPAREN, it is about to get complicated.
 			if (tt1 == TokenType.LPAREN) {
 
@@ -150,7 +152,7 @@ namespace Parse {
 				if (tt2 == TokenType.RPAREN) {
 					return new Cons (
 						nodeNil,
-						parseRest(),
+						parseRest(scanner.getNextToken()),
 						cn++);
 				}
 
@@ -161,20 +163,19 @@ namespace Parse {
 					return new Cons (							// Make a Cons node
 						(new Cons(								// car
 							parseExp (t2),							// car - the next token
-							parseRest(),		// cdr - the parseRest of the next-next token
+							parseRest(scanner.getNextToken()),		// cdr - the parseRest of the next-next token
 							cn++)									//
 						),
-						parseRest (),		//cdr - the parseRest of the next-next-next token
+						parseRest (scanner.getNextToken()),		//cdr - the parseRest of the next-next-next token
 						cn++
 					);
 				}
 			}
 
-
 			// If the next token is a RPAREN, we can infer that it is the end of the list,
 			// and we can return a Cons node that parses the current token in its car
 			// and puts Nil in its cdr
-			if (tt2 == TokenType.RPAREN) {
+			else if (tt2 == TokenType.RPAREN) {
 				return new Cons (parseExp (t1), nodeNil, cn++);
 			}
 
@@ -190,18 +191,19 @@ namespace Parse {
 			// Therefore, we are free to parse this token into the car of a Cons node
 			// and parse the rest of of the list in the cdr of this Cons node
 			else {
-				return new Cons(parseExp(t1), parseExp(t2), cn++);
+				return new Cons(parseExp(t1), parseRest(t2), cn++);
 			}
 
         }
 
 		public static int Main (string[] args) {
+
 			Scanner scanner = new Scanner (Console.In);
 			Parser parser = new Parser (scanner);
 
 			Node root;
 			root = parser.parseExp ();
-			root.print(1);
+			root.print(0);
 			return 0;
 		}
 

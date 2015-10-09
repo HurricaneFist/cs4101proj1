@@ -17,12 +17,8 @@ namespace Tree {
         }
 
         public override void print(int n, bool p) {
-            Special.indent(n)
-            //for (int i = 0; i < n; i++)
-            //    Console.Write(" ");
-
             if (p)
-                Console.WriteLine(")");
+                Console.Write(")");
             else
                 Console.WriteLine("()");
         }

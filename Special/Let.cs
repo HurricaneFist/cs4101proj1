@@ -7,15 +7,18 @@ namespace Tree
     public class Let : Special
     {
         // TODO: Add any fields needed.
- 
+
         // TODO: Add an appropriate constructor.
 	public Let() { }
 
         public override void print(Node t, int n, bool p)
         {
-            // TODO: Implement this function.
+            // Indent
+
+            for (int i = 0; i < n; i++) {
+                Console.Write("    ");
+            }
+            
         }
     }
 }
-
-
