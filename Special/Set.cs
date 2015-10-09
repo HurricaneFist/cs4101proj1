@@ -9,6 +9,9 @@ namespace Tree {
         public Set() { }
 
         public override void print(Node t, int n, bool p) {
+            
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
 
 			Node car   = t.getCar   (),
                  cdr   = t.getCdr   (),
