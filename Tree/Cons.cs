@@ -11,34 +11,19 @@ namespace Tree
 		private Special form;
 		private int cn;
 
-        public Cons(Node a, Node d, int i) {
+        public Cons(Node a, Node d, int i)
+        {
 			cn = i;
             car = a;
             cdr = d;
-			parseList();
-        }
-
-		public override bool isPair() {
-            return true;
-        }
-
-		public override Node getCar() {
-            return car;
-        }
-
-		public override Node getCdr() {
-            return cdr;
-        }
-
-        public override void setCar(Node a) {
-            car = a;
             parseList();
         }
 
-        public override void setCdr(Node d) {
-            cdr = d;
-            parseList();
-        }
+		public override bool isPair() { return true; }
+
+		public override Node getCar() { return car; }
+
+		public override Node getCdr() { return cdr; }
 
         // parseList() `parses' special forms, constructs an appropriate
         // object of a subclass of Special, and stores a pointer to that
@@ -48,70 +33,64 @@ namespace Tree
         // parseList only look at the car for selecting the appropriate
         // object from the Special hierarchy and to leave the rest of
         // parsing up to the interpreter.
-        void parseList() {
-            if (car.isSymbol ()) {
+        public void parseList() {
+            if (car.isSymbol()) {
                 string name = car.getName();
-                if (name.Equals("\'")) {
+                Console.Write(cn + " " + name);
+
+                if (name == "\'" || (String.Compare(name, "quote", true) == 0)) {
 					form = new Quote ();
-                    Console.Write("quote");
+                    Console.WriteLine("  quote");
 				}
-
-                if (name.Equals("lambda")) {
+                else if (String.Compare(name, "lambda", true) == 0) {
 					form = new Lambda ();
-                    Console.Write("lamba");
+                    Console.WriteLine("  lambda");
 				}
-
-				if (name.Equals("begin")) {
+				else if (String.Compare(name, "begin", true) == 0) {
 					form = new Begin ();
-                    Console.Write("begin");
+                    Console.WriteLine("  begin");
 				}
-
-				if (name.Equals ("if")) {
+				else if (String.Compare(name, "if", true) == 0) {
 					form = new If ();
-                    Console.Write("if");
+                    Console.WriteLine("  if");
 				}
-
-				if (name.Equals("let")) {
+				else if (String.Compare(name, "let", true) == 0) {
 					form = new Let ();
-                    Console.Write("let");
+                    Console.WriteLine("  let");
 				}
-
-                if (name.Equals("cond")) {
+                else if (String.Compare(name, "cond", true) == 0) {
                     form = new Cond ();
-                    Console.Write("cond");
+                    Console.WriteLine("  cond");
                 }
-
-				if (name.Equals("define")) {
+				else if (String.Compare(name, "define", true) == 0) {
                     form = new Define();
-                    Console.Write("define");
+                    Console.WriteLine("  define");
                 }
-
-				if (name.Equals ("set")) {
+				else if (String.Compare(name, "set!", true) == 0) {
 					form = new Set ();
-                    Console.Write("set");
+                    Console.WriteLine("  set!");
 				}
-
                 else {
                     form = new Regular();
-                    Console.Write("reg");
+                    Console.WriteLine("  reg");
                 }
+
 			}
         }
 
-        public override void print(int n) {
+        public override void print(int n)
+        {
             //form.print(this, n, false);
-
 			Console.WriteLine("cons" + cn);
 			Console.WriteLine("cons" + cn + "car");
-			getCar().print(n);
+			car.print(n);
 			Console.WriteLine("cons" + cn + "cdr");
-			getCdr().print(n);
-
+			cdr.print(n);
         }
 
-        public override void print(int n, bool p) {
-            form.print(this, n, p);
+        public override void print(int n, bool p)
+        {
+            //form.print(this, n, p);
         }
-
     }
 }
