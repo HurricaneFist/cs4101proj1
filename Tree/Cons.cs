@@ -106,20 +106,20 @@ namespace Tree {
 
         public override void print(int n) {
             //Console.WriteLine("consprint1");
-            //form.print(this, n, false);
-
+            form.print(this, n, false);
+            /*
 			Console.WriteLine("cons" + cn);
 			Console.WriteLine("cons" + cn + "car");
 			car.print(n);
             Console.WriteLine();
 			Console.WriteLine("cons" + cn + "cdr");
 			cdr.print(n);
-
+            */
         }
 
         public override void print(int n, bool p) {
             //Console.WriteLine("consprint2");
-            //form.print(this, n, p);
+            form.print(this, n, p);
         }
     }
 }
