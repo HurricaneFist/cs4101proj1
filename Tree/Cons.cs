@@ -71,7 +71,7 @@ namespace Tree {
 				}
 				else if (String.Compare(name, "begin", true) == 0) {
 					form = new Begin ();
-                    Console.WriteLine("  begin");
+                    //Console.WriteLine("  begin");
 				}
 				else if (String.Compare(name, "if", true) == 0) {
 					form = new If ();
@@ -91,7 +91,7 @@ namespace Tree {
                 }
 				else if (String.Compare(name, "set!", true) == 0) {
 					form = new Set ();
-                    Console.WriteLine("  set!");
+                    //Console.WriteLine("  set!");
 				}
                 else {
                     form = new Regular();
@@ -106,20 +106,20 @@ namespace Tree {
 
         public override void print(int n) {
             //Console.WriteLine("consprint1");
-            form.print(this, n, false);
-            /*
+            //form.print(this, n, false);
+
 			Console.WriteLine("cons" + cn);
 			Console.WriteLine("cons" + cn + "car");
 			car.print(n);
+            Console.WriteLine();
 			Console.WriteLine("cons" + cn + "cdr");
 			cdr.print(n);
-            Console.WriteLine();
-            */
+
         }
 
         public override void print(int n, bool p) {
             //Console.WriteLine("consprint2");
-            form.print(this, n, p);
+            //form.print(this, n, p);
         }
     }
 }

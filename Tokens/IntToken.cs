@@ -1,19 +1,21 @@
 // IntToken -- Token object for representing integer constants.
+using System;
+namespace Tokens {
 
-namespace Tokens
-{
-    public class IntToken : Token
-    {
+    public class IntToken : Token {
         private int intVal;
 
-        public IntToken(int i) : base(TokenType.INT)
-        {
+        public IntToken(int i) : base(TokenType.INT) {
             intVal = i;
         }
-    
-        public override int getIntVal()
-        {
+
+        public override void print() {
+            Console.WriteLine(intVal);
+        }
+
+        public override int getIntVal() {
             return intVal;
         }
+
     }
 }
