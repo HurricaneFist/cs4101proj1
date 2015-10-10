@@ -11,6 +11,34 @@ namespace Tree
 
         public override void print(Node t, int n, bool p)
         {
+            
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
+            
+            Node car    = t.getCar    (), 
+                 cdr    = t.getCdr    (), 
+                 cadr   = cdr.getCar  (),                  
+                 cddr   = cdr.getCdr  (),
+                 cdddr  = cddr.getCdr (),
+                 cddddr = cdddr.getCdr(), // nil
+                 caddr  = cddr.getCar (), 
+                 cadddr = cdddr.getCar();
+                 
+            car.print(n, true);    // (if
+            Console.Write(" ");
+            
+            cadr.print(n, true);   //    (= n 0)
+            Console.WriteLine();
+            
+            caddr.print(++n, true);  //            1
+            Console.WriteLine();
+            
+            cadddr.print(n, true); //              2
+            Console.WriteLine();
+            
+            cddddr.print(--n, true); //                )
+            
+            /*
             Node car  = t.getCar();
             Node cdr  = t.getCdr();
             Node cadr = cdr.getCar();
@@ -43,6 +71,7 @@ namespace Tree
             }
 
             cdddr.print(n, true);
+            */
         }
     }
 }
