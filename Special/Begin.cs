@@ -24,11 +24,16 @@ namespace Tree {
             Console.WriteLine();
             n++;
             while (!cdr.isNil()) {
-                cdr.getCar().print(n, false);
+                // Indent
+                for (int i = 0; i < n; i++) {
+                    Console.Write("    ");
+                }
+                cdr.getCar().print(0, false);
                 cdr = cdr.getCdr();
             }
 
-            cdr.print(n, true);
+            cdr.print(0, true);
+            Console.WriteLine();
 
         }
     }
