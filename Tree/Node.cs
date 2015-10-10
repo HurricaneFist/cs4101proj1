@@ -1,4 +1,5 @@
 // Node -- Base class for parse tree node objects
+using System;
 
 namespace Tree
 {
@@ -34,6 +35,12 @@ namespace Tree
         public virtual void setFormToRegular() {}
 
         public virtual void setFormToRegular(bool b) {}
+
+        public void indent(int n){
+            for (int i = 0; i < n; i++){
+                Console.Write("    ");
+            }
+        }
 
         // For parsing Cons nodes, for printing trees, and later for
         // evaluating them, we need some helper functions that test

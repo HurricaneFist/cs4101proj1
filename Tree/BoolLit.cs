@@ -21,7 +21,7 @@ namespace Tree {
             //for (int i = 0; i < n; i++) {
             //    Console.Write(" ");
             //}
-
+            //indent(n);
             if (boolVal)    Console.Write("#t");
             else            Console.Write("#f");
         }

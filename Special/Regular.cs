@@ -6,6 +6,7 @@ namespace Tree {
 
     public class Regular : Special {
         private bool regulate = false, hasMessage = false;
+        public int depth = 0;
 
         public Regular() { }
 
@@ -39,7 +40,11 @@ namespace Tree {
                 Console.Write("()");
             }
             else {
-                t.getCar().print(n, true);
+                Node car = t.getCar();
+                if (regulate && car.isPair()){
+                    depth++;
+                }
+                car.print(n, false);
             }
             //Console.WriteLine("@@@");
 
@@ -55,7 +60,12 @@ namespace Tree {
             if (cdr.isNil()) {
                 if (!hasMessage) {
                     cdr.print(n, true);
-                    Console.WriteLine();
+                    if (regulate) {
+                        depth--;
+                    }
+                    if (depth == 0) {
+                        Console.WriteLine();
+                    }
                 }
 
             }
