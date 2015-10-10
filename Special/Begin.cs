@@ -34,7 +34,7 @@ namespace Tree {
 
             cdr.print(0, true);
             Console.WriteLine();
-
         }
+
     }
 }
