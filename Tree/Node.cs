@@ -33,6 +33,8 @@ namespace Tree
 
         public virtual void setFormToRegular() {}
 
+        public virtual void setFormToRegular(bool b) {}
+
         // For parsing Cons nodes, for printing trees, and later for
         // evaluating them, we need some helper functions that test
         // the type of a node and that extract some information.
