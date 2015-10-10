@@ -22,18 +22,34 @@ namespace Tree
                  caddr  = cddr.getCar (),   // true
                  cadddr = cdddr.getCar();   // false
 
+            Console.Write("(");
             car.print(n, true);    // (if
             Console.Write(" ");
 
-            cadr.print(n, false);   //    (= n 0)
+            cadr.print(n++, false);   //    (= n 0)
 
-            caddr.print(++n, false);  //            1
-            Console.WriteLine();
+            if (!caddr.isPair()){
+                for (int i = 0; i < n; i++)
+                    Console.Write("    ");
+            }
 
-            cadddr.print(n, false); //              2
-            Console.WriteLine();
+            caddr.print(n, false);  //            1
 
-            cddddr.print(--n, true); //                )
+            if (!caddr.isPair()){
+                Console.WriteLine();
+            }
+
+            if (!cadddr.isPair()){
+                for (int i = 0; i < n; i++)
+                    Console.Write("    ");
+            }
+            cadddr.print(n--, false); //              2
+            
+            if (!cadddr.isPair()){
+                Console.WriteLine();
+            }
+
+            cddddr.print(n, true); //                )
             Console.WriteLine();
         }
     }
