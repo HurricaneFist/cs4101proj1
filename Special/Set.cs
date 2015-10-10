@@ -9,7 +9,7 @@ namespace Tree {
         public Set() { }
 
         public override void print(Node t, int n, bool p) {
-            
+
             for (int i = 0; i < n; i++)
                 Console.Write("    ");
 
@@ -22,11 +22,14 @@ namespace Tree {
 
             if (!p)
                 Console.Write("(");
-            
+
             car.print(n, true);
+            Console.Write(" ");
             cadr.print(n, true);
+            Console.Write(" ");
             caddr.print(n, true);
             cdddr.print(n, true);
+            Console.WriteLine();
         }
 
     }
