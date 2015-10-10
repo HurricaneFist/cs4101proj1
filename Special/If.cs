@@ -9,40 +9,48 @@ namespace Tree
 
 	public If() { }
 
-        public override void print(Node t, int n, bool p)
-        {
-            Node car  = t.getCar();
-            Node cdr  = t.getCdr();
-            Node cadr = cdr.getCar();
-            Node cddr = cdr.getCdr();
-            Node caddr = cddr.getCar();
-            Node cdddr = cddr.getCdr(); // Must be Nil
-            bool isFunc = false;
+        public override void print(Node t, int n, bool p) {
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
 
-            if (cadr.isPair()){
-                isFunc = true;
+            Node car    = t.getCar    (),   // if
+                 cdr    = t.getCdr    (),
+                 cadr   = cdr.getCar  (),   // condition
+                 cddr   = cdr.getCdr  (),
+                 cdddr  = cddr.getCdr (),
+                 cddddr = cdddr.getCdr(), // nil
+                 caddr  = cddr.getCar (),   // true
+                 cadddr = cdddr.getCar();   // false
+
+            Console.Write("(");
+            car.print(n, true);    // (if
+            Console.Write(" ");
+
+            cadr.print(n++, false);   //    (= n 0)
+
+            if (!caddr.isPair()){
+                for (int i = 0; i < n; i++)
+                    Console.Write("    ");
             }
 
-            if (!p) {
-                Console.Write("(");
+            caddr.print(n, false);  //            1
+
+            if (!caddr.isPair()){
+                Console.WriteLine();
             }
 
-            car.print(n, true);
-            cadr.print(n, true);
+            if (!cadddr.isPair()){
+                for (int i = 0; i < n; i++)
+                    Console.Write("    ");
+            }
+            cadddr.print(n--, false); //              2
+            
+            if (!cadddr.isPair()){
+                Console.WriteLine();
+            }
+
+            cddddr.print(n, true); //                )
             Console.WriteLine();
-
-            // Indent stuff
-            if (isFunc) {
-                n++;
-            }
-
-            caddr.print(n, true);
-
-            if (isFunc) {
-                n--;
-            }
-
-            cdddr.print(n, true);
         }
     }
 }

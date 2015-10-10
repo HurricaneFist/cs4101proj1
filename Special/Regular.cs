@@ -5,8 +5,15 @@ using System;
 namespace Tree {
 
     public class Regular : Special {
+        private bool regulate = false, hasMessage = false;
+        public int depth = 0;
 
         public Regular() { }
+
+        public Regular(bool r, bool quoteString) {
+            regulate = r;
+            hasMessage = quoteString;
+        }
 
         // Boolean p - true if left parenthesis HAS BEEN PRINTED
         //             false if '(' has not been printed
@@ -23,30 +30,48 @@ namespace Tree {
                 Console.Write("(");     // Print one
             }
 
-            // Print car
-
-            Node car = t.getCar();
-            if (car.isNil()) {     // If car isNull, it is an empty list
-                //car.print(n, false);
-                Console.Write("()");// So print the empty list
+            // Regulate the entire subtree
+            if (regulate) {
+                t.getCdr().setFormToRegular();
+            }
+            //Console.WriteLine("$$$");
+            // Print car while handling empty lists inside of lists
+            if (t.getCar().isNil()) {
+                Console.Write("()");
             }
             else {
-                car.print(n, true); // Else print the node such that the
-                                    // left parenthesis has already been printed
+                Node car = t.getCar();
+                if (regulate && car.isPair()){
+                    depth++;
+                }
+                car.print(n, false);
             }
+            //Console.WriteLine("@@@");
 
-            // Print cdr
 
-            Node cdr = t.getCdr();
-            if (cdr.isPair()) {
+            // Print a space if we have not reached the end of the list
+            // Then print the cdr
+            if (!t.getCdr().isNil()) {
                 Console.Write(" ");
             }
-            cdr.print(n, true);
+            //Console.WriteLine("###");
+            //Console.WriteLine(t.getCdr().isPair());
+            Node cdr = t.getCdr();
             if (cdr.isNil()) {
-                Console.WriteLine();
-            }
+                if (!hasMessage) {
+                    cdr.print(n, true);
+                    if (regulate) {
+                        depth--;
+                    }
+                    if (depth == 0) {
+                        Console.WriteLine();
+                    }
+                }
 
-            // End with a carriage return
+            }
+            else {
+                cdr.print(n, true);
+            }
 
         }
     }

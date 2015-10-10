@@ -8,30 +8,28 @@ namespace Tree {
 
         public Set() { }
 
-        // !!!!
         public override void print(Node t, int n, bool p) {
 
-            if (!p) {
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
+
+			Node car   = t.getCar   (),
+                 cdr   = t.getCdr   (),
+                 cadr  = cdr.getCar (),
+                 cddr  = cdr.getCdr (),
+                 caddr = cddr.getCar(),
+                 cdddr = cddr.getCdr(); // Which should be Nil
+
+            if (!p)
                 Console.Write("(");
-            }
 
-            // If this is set!, shouldn't there only be two arguments after the set token?
-            // For example, (set! x (+ 2 3))
-            // --> Set the identifier x to be (+ 2 3)
-
-            Node car = t.getCar();
-            if (car.isNull()) {
-                car.print(n, false);
-            }
-            else {
-                car.print(n, true);
-            }
-
-            Node cdr = t.getCdr();
-            if (cdr.isPair()) {
-                Console.Write(" ");
-            }
-            cdr.print(n, true);
+            car.print(n, true);
+            Console.Write(" ");
+            cadr.print(n, true);
+            Console.Write(" ");
+            caddr.print(n, true);
+            cdddr.print(n, true);
+            Console.WriteLine();
         }
 
     }
