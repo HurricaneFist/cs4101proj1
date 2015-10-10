@@ -2,49 +2,49 @@
 
 using System;
 
-namespace Tree
-{
-    public class Lambda : Special
-    {
-        // TODO: Add any fields needed.
+namespace Tree {
 
-        // TODO: Add an appropriate constructor.
-	public Lambda() { }
+    public class Lambda : Special {
 
-        public override void print(Node t, int n, bool p)
-        {
-            Node car  = t.getCar();
-            Node cdr  = t.getCdr();
-            Node cadr = cdr.getCar();
-            Node cddr = cdr.getCdr();
-            Node caddr = cddr.getCar();
-            Node cdddr = cddr.getCdr(); // Must be Nil
-            bool isFunc = false;
+        public Lambda() { }
 
-            if (cadr.isPair()){
-                isFunc = true;
+        public override void print(Node t, int n, bool p) {
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
+
+            Node car    = t.getCar    (),   // lambda
+                 cdr    = t.getCdr    (),
+                 cadr   = cdr.getCar  (),   // list 1
+                 cddr   = cdr.getCdr  (),
+                 caddr  = cddr.getCar (),   // list 2
+                 cdddr  = cddr.getCdr ();   // nil
+
+            Console.Write("(");
+            car.print(n, true);    // lambda
+            Console.Write(" ");
+
+            cadr.print(n++, false);   //    (= n 0)
+
+
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
+
+
+            if (!caddr.isPair()){
+                for (int i = 0; i < n; i++)
+                    Console.Write("    ");
             }
 
-            if (!p) {
-                Console.Write("(");
+            caddr.print(0, false);  //            1
+
+            if (!caddr.isPair()){
+                Console.WriteLine();
             }
 
-            car.print(n, true);
-            cadr.print(n, true);
+            cdddr.print(n, true); //                )
             Console.WriteLine();
 
-            // Indent stuff
-            if (isFunc) {
-                n++;
-            }
+        }
 
-            caddr.print(n, true);
-
-            if (isFunc) {
-                n--;
-            }
-
-            cdddr.print(n, true);
-  	    }
     }
 }

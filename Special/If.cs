@@ -2,10 +2,9 @@
 
 using System;
 
-namespace Tree
-{
-    public class If : Special
-    {
+namespace Tree {
+    
+    public class If : Special {
 
 	public If() { }
 
@@ -44,7 +43,7 @@ namespace Tree
                     Console.Write("    ");
             }
             cadddr.print(n--, false); //              2
-            
+
             if (!cadddr.isPair()){
                 Console.WriteLine();
             }
@@ -52,5 +51,6 @@ namespace Tree
             cddddr.print(n, true); //                )
             Console.WriteLine();
         }
+
     }
 }
