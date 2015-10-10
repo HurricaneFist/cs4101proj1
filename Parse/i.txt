@@ -1,1 +1,1 @@
-(a)
+(begin (set! x 6) (set! y 7) (* x y) )

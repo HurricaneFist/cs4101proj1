@@ -2,32 +2,34 @@
 
 using System;
 
-namespace Tree
-{
-    public class Begin : Special
-    {
+namespace Tree {
+
+    public class Begin : Special {
+
         public int numIndents = 0;
 
 		public Begin() { }
 
-        public override void print(Node t, int n, bool p)
-        {
+        public override void print(Node t, int n, bool p) {
             // Indent
-
             for (int i = 0; i < n; i++) {
                 Console.Write("    ");
             }
 
-            Console.Write("(begin\n");
+            Node    car = t.getCar(),
+                    cdr = t.getCdr();
+
+            Console.Write("(");     // (
+            car.print(n, true);     // begin
+            Console.WriteLine();
             n++;
-
-            // Indent again
-
-            for (int i = 0; i < n; i++) {
-                Console.Write("    ");
+            while (!cdr.isNil()) {
+                cdr.getCar().print(n, false);
+                cdr = cdr.getCdr();
             }
 
-            t.getCdr().print(n, true);
+            cdr.print(n, true);
+
         }
     }
 }

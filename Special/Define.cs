@@ -27,12 +27,17 @@ namespace Tree {
             }
 
             car.print(n, true);
+            Console.Write(" ");
             cadr.print(n, true);
-            Console.WriteLine();
+
 
             // Indent stuff
             if (isFunc) {
+                Console.WriteLine();
                 n++;
+            }
+            else {
+                Console.Write(" ");
             }
 
             caddr.print(n, true);
@@ -42,6 +47,7 @@ namespace Tree {
             }
 
             cdddr.print(n, true);
+            Console.WriteLine();
         }
 
     }

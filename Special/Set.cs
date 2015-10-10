@@ -18,7 +18,7 @@ namespace Tree {
                  cadr  = cdr.getCar (),
                  cddr  = cdr.getCdr (),
                  caddr = cddr.getCar(),
-                 cdddr = cddr.getCdr();
+                 cdddr = cddr.getCdr(); // Which should be Nil
 
             if (!p)
                 Console.Write("(");
