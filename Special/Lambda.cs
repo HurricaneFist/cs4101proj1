@@ -14,36 +14,36 @@ namespace Tree {
 
             Node car    = t.getCar    (),   // lambda
                  cdr    = t.getCdr    (),
-                 cadr   = cdr.getCar  (),   // list 1
+                 cadr   = cdr.getCar  (),   // list1
                  cddr   = cdr.getCdr  (),
-                 caddr  = cddr.getCar (),   // list 2
-                 cdddr  = cddr.getCdr ();   // nil
+                 cdddr  = cddr.getCdr (), // nil
+                 caddr  = cddr.getCar ();   // list2
 
             Console.Write("(");
-            car.print(n, true);    // lambda
+            car.print(0, true);    // (lambda
             Console.Write(" ");
 
-            cadr.print(n++, false);   //    (= n 0)
+            cadr.print(0, false);   //    list1
+/*
+            if (!caddr.isPair()){
+                n++;
+                for (int i = 0; i < n; i++)
+                    Console.Write("    ");
+            }*/
 
+            n++;
 
             for (int i = 0; i < n; i++)
                 Console.Write("    ");
+            caddr.print(n, false); //list2
 
+            n--;
 
-            if (!caddr.isPair()){
-                for (int i = 0; i < n; i++)
-                    Console.Write("    ");
-            }
-
-            caddr.print(0, false);  //            1
-
-            if (!caddr.isPair()){
-                Console.WriteLine();
-            }
-
-            cdddr.print(n, true); //                )
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
+                
+            cdddr.print(n, true);
             Console.WriteLine();
-
         }
 
     }
