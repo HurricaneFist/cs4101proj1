@@ -21,9 +21,9 @@ namespace Tree {
                     cdr = t.getCdr();
 
             Console.Write("(");     // (
-            car.print(n, true);     // cond
-            Console.WriteLine();
-            n++;
+            car.print(n, true);     // Condition
+            Console.WriteLine();    // Carriage return
+            n++;                    // Increase indentation
 
             while (!cdr.isNil()) {
                 // Indent the parameters of cond
@@ -35,7 +35,13 @@ namespace Tree {
                 cdr = cdr.getCdr();
             }
 
-            // Print the final right parenthesis
+            n--;                    // Decrease indentation
+
+            // Print the final right parenthesis and
+            // Indent (if necessary)
+            for (int i = 0; i < n; i++) {
+                Console.Write("    ");
+            }
             cdr.print(0, true);
             Console.WriteLine();
         }

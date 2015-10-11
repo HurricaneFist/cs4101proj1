@@ -51,13 +51,12 @@ public class SPP
         // Parse and pretty-print each input expression
         root = parser.parseExp();
         root.print(0);
-        /*
         while (root != null)
         {
             root.print(0);
             root = parser.parseExp();
         }
-        */
+
         return 0;
     }
 }

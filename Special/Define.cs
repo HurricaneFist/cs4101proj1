@@ -39,29 +39,23 @@ namespace Tree {
                 isFunc = true;
             }
             cadr.print(0, false);
-<<<<<<< HEAD
-            if (isFunc){
-=======
 
-            if (isFunc) {
-                // If it's a function definition, indent and print the
-                // definition
->>>>>>> origin/prettyPrinter
+            // If it's a function definition, indent and print the
+            // definition
+            if (isFunc){
                 n++;
                 caddr.print(n, false);
                 n--;
             }
-<<<<<<< HEAD
+
+            // Otherwise, don't indent and just print the second param
             else{
                 Console.Write(" ");
                 caddr.setFormToRegular();
-=======
-            else { // Otherwise, don't indent and just print the second param
->>>>>>> origin/prettyPrinter
                 caddr.print(0, false);
             }
 
-            // Print the final right parenthesis
+            // Print the final right parenthesis and carriage return
             cdddr.print(n, true);
             Console.WriteLine();
         }
