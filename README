@@ -1,0 +1,20 @@
+In the README file, briefly explain how you designed your program and what works and what doesn’t. If there are problems with your submission, include any information that would make it easier for the grader to give you partial credit.
+
+Project Members:
+    Bobby Kong,
+    Ian Lee
+
+Design:
+        Using identifier definitions from the Revised Scheme Report and our general knowledge of Scheme, the lexical analyzer implemented by the Scanner class's getNextToken function takes characters one at a time from standard input and makes appropriate tokens out of them, even for tokens with values that span across up to 1000 characters.
+
+        
+
+        Much more detailed information can be found in comments in the classes' and their functions' definitions.
+
+What Works:
+
+
+What Does Not Work:
+
+
+Additional Information:
