@@ -6,9 +6,9 @@ namespace Tree {
 
     public class Quote : Special {
 
-        private bool isRoot = false;
-        private bool charQuote = true; // strQuote = !charQuote
-        private  int depth;
+        private bool isRoot = false; // whether or not this quote is the first
+        private bool charQuote = true; // if this is '() rather than (quote )
+        private int depth; // the current depth
 
         public Quote (bool b, int d) {
             charQuote = b;
@@ -22,8 +22,13 @@ namespace Tree {
         }
 
         public override void print(Node t, int n, bool p) {
+
+            // Indent if necessary
+
             for (int i = 0; i < n; i++)
                 Console.Write("    ");
+
+                
             if (charQuote) {
                 if (isRoot) {
                     t.setFormToQuote(charQuote, depth);
