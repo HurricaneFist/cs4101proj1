@@ -5,27 +5,16 @@ using System;
 namespace Tree {
 
     public class Ident : Node {
+
         private string name;
 
-        public Ident(string n) {
-            name = n;
-            //Console.WriteLine("identNode " + name);
-        }
+        public Ident(string n) { name = n; }
 
-        public override string getName() {
-            return name;
-        }
+        public override string getName() { return name; }
 
 		public override bool isSymbol() { return true; }
 
-        public override void print(int n) {
-	        // There got to be a more efficient way to print n spaces.
-            //for (int i = 0; i < n; i++) {
-            //    Console.Write("    ");
-            //}
-            //indent(n);
-            Console.Write(name);
-        }
+        public override void print(int n) { Console.Write(name); }
 
     }
 }

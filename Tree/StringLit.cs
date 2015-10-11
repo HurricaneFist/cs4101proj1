@@ -8,17 +8,11 @@ namespace Tree {
 
         private string stringVal;
 
-        public StringLit(string s) {
-            stringVal = s;
-            //Console.WriteLine("stringLitNode " + s);
-        }
+        public StringLit(string s) { stringVal = s; }
 
 		public override bool isString() { return true; }
 
-        public override void print(int n) {
-            //indent(n);
-            Console.Write("\"" + stringVal + "\"");
-        }
+        public override void print(int n) { Console.Write("\"" + stringVal + "\""); }
 
     }
 }

@@ -8,14 +8,11 @@ namespace Tree {
 
         public Nil() { }
 
-        public override void print(int n) {
-            print(n, false);
-        }
+        public override void print(int n) { print(n, false); }
 
 		public override bool isNil() { return true; }
 
         public override void print(int n, bool p) {
-            //indent(n);
             if (p)  Console.Write(")");
             else    Console.Write("()");
         }

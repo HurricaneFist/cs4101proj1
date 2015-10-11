@@ -8,17 +8,11 @@ namespace Tree {
 
         private int intVal;
 
-        public IntLit(int i) {
-            intVal = i;
-            //Console.WriteLine("intLitNode " + i);
-        }
+        public IntLit(int i) { intVal = i; }
 
 		public override bool isNumber() { return true; }
 
-        public override void print(int n) {
-            //indent(n);
-            Console.Write(intVal);
-        }
+        public override void print(int n) { Console.Write(intVal); }
 
     }
 }

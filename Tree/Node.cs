@@ -1,10 +1,10 @@
 // Node -- Base class for parse tree node objects
 using System;
 
-namespace Tree
-{
-    public class Node
-	{
+namespace Tree {
+
+    public class Node {
+
 		// The argument of print(int) is the number of characters to indent.
         // Every subclass of Node must implement print(int).
         public virtual void print(int n) { }
@@ -24,13 +24,9 @@ namespace Tree
         // encode that in the sign bit of n. If you need additional parameters,
         // make sure that you define the method print in all the appropriate
         // subclasses of Node as well.
-        public virtual void print(int n, bool p) {
-            print(n);
-        }
+        public virtual void print(int n, bool p) { print(n); }
 
-        public virtual string getName() {
-            return "";
-        }
+        public virtual string getName() { return ""; }
 
         public virtual void setFormToQuote(bool b, int d) { }
 
@@ -40,12 +36,6 @@ namespace Tree
 
         public virtual void setFormToRegular(bool b) {}
 
-        public void indent(int n){
-            for (int i = 0; i < n; i++){
-                Console.Write("    ");
-            }
-        }
-
         // For parsing Cons nodes, for printing trees, and later for
         // evaluating them, we need some helper functions that test
         // the type of a node and that extract some information.
@@ -54,15 +44,14 @@ namespace Tree
         public virtual bool isNumber() { return false; }  // IntLit
         public virtual bool isString() { return false; }  // StringLit
         public virtual bool isSymbol() { return false; }  // Ident
-        public virtual bool isNil()   { return false; }  // Nil
+        public virtual bool isNil()    { return false; }  // Nil
         public virtual bool isPair()   { return false; }  // Cons
 
-        // TODO: Report an error in these default methods and implement them
-        // in class Cons.  After setCar, a Cons cell needs to be `parsed' again
-        // using parseList.
-        public virtual Node getCar() { return null; }
-        public virtual Node getCdr() { return null; }
-        public virtual void setCar(Node a) { }
-        public virtual void setCdr(Node d) { }
+        public virtual Node getCar() { Console.Error.WriteLine("Cannot get car of a node other than Cons"); }
+        public virtual Node getCdr() { Console.Error.WriteLine("Cannot get cdr of a node other than Cons"); }
+        
+        public virtual void setCar(Node a) { Console.Error.WriteLine("Cannot set car of a node other than Cons"); }
+        public virtual void setCdr(Node d) { Console.Error.WriteLine("Cannot set cdr of a node other than Cons"); }
+
     }
 }
