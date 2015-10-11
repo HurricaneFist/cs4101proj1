@@ -264,7 +264,7 @@ namespace Parse {
 						buf = new char[BUFSIZE];
 
 						// Return a token with the name of the identifier
-                        return new IdentToken(s);
+                        return new IdentToken(name);
                     }
                 }
 

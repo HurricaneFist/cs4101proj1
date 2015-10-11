@@ -65,12 +65,12 @@ namespace Parse {
 			TokenType tt = t.getType();
 
 			// If this token is a LPAREN, parse the rest of the list
-			if (tt == TokenType.LPAREN)     { Console.WriteLine(); return parseRest(); }
+			if (tt == TokenType.LPAREN)     { return parseRest(); }
 
 			// If token is TRUE or FALSE,
 			// return pointers to the nodes we initialized at the beginning
-			else if (tt == TokenType.FALSE) { Console.WriteLine(); return nodeFalse; }
-			else if (tt == TokenType.TRUE)  { Console.WriteLine(); return nodeTrue; }
+			else if (tt == TokenType.FALSE) { return nodeFalse; }
+			else if (tt == TokenType.TRUE)  { return nodeTrue; }
 
 			// If this token in a QUOTE, make a Cons node
 			// with ' as its car
@@ -78,7 +78,6 @@ namespace Parse {
 			// because what follows a QUOTE token should be treated
 			// as a regular list to parse.
 			else if (tt == TokenType.QUOTE)	{
-				Console.WriteLine();
 				return new Cons (
 					new Ident ("\'"),
 					parseExp (),
@@ -95,19 +94,12 @@ namespace Parse {
 
 		}
 
-		// Get the next token, make a node out of it, and return that node
+		// Parse the next exp into a node
+		// If not given a token to parse, get one
         public Node parseExp() {
 			Token t = scanner.getNextToken();
-
-			Console.Write(t.getType());
-			TokenType tt = t.getType();
-			Console.Write(" ");
-			t.print();
-
 			return makeExp (t);
         }
-
-		// Take a token as input, make a node out of it, and return that node
 		public Node parseExp(Token t) {
 			return makeExp (t);
 		}
@@ -117,15 +109,8 @@ namespace Parse {
 			// what kind of nodes we need to make and where to put them
 			TokenType tt1 = t1.getType();
 
-			Console.Write(tt1 + " ");
-			if (tt1 == TokenType.LPAREN) {
-				Console.WriteLine();
-			}
-			t1.print();
-
 			// If this token is a RPAREN, just return Nil
 			if (tt1 == TokenType.RPAREN) {
-				Console.WriteLine();
 				return nodeNil;
 			}
 
@@ -133,15 +118,46 @@ namespace Parse {
 			Token t2 = scanner.getNextToken();
 			TokenType tt2 = t2.getType();
 
-			Console.Write(tt2 + " ");
-			t2.print();
+			// Make a check to see if the current token is a LPAREN, because
+			// if it is, then that is indicative that there exists an empty or
+			// non-empty list within the current list context
+			if (tt1 == TokenType.LPAREN) {
+
+				// If this and the next token are a LPAREN-RPAREN pair, we
+				// are seeing a an empty list within a list.
+				// Return a Cons node whose car is Nil and cdr is the parsing
+				// of the rest of the list
+				if (tt2 == TokenType.RPAREN) {
+					return new Cons (
+						nodeNil,
+						parseRest(),
+						cn++);
+				}
+
+				// If this token is a LPAREN and the next token is anything,
+				// besides the RPAREN, that means that this LPAREN is starting a
+				// new, inner list of exps in this current list
+				// and the next token is the start of the new inner list
+				else {
+					return new Cons (		// Make a Cons node
+						new Cons(			// Car
+							parseExp(t2),	// Car's car - the next token
+							parseRest(),	// Car's cdr - the parseRest of the
+											// next-next token
+							cn++			//
+						),
+						parseRest (),		// Cdr - the parseRest of the
+											// next-next-next token
+						cn++
+					);
+				}
+			}
 
 			// If this token is an exp and the next token is a DOT,
 			// finish parsing this exp in the car of a new Cons node,
 			// and parse the next-next token as an exp
 			// because we know it will be the last exp since it follows a DOT
 			if (tt2 == TokenType.DOT) {
-				Console.WriteLine();
 				return new Cons (parseExp(t1), parseExp(), cn++);
 			}
 
@@ -150,36 +166,7 @@ namespace Parse {
 			// return a Cons node that parses the current token in its car
 			// and puts Nil in its cdr
 			else if (tt2 == TokenType.RPAREN) {
-				Console.WriteLine();
 				return new Cons (parseExp(t1), nodeNil, cn++);
-			}
-
-			// Else if this token is a LPAREN, it is about to get complicated.
-			else if (tt1 == TokenType.LPAREN) {
-
-				// If this and the next token are a LPAREN-RPAREN pair,
-				// return a Cons node whose car is Nil and cdr is the parsing of the rest of the list
-				if (tt2 == TokenType.RPAREN) {
-					return new Cons (
-						nodeNil,
-						parseRest(),
-						cn++);
-				}
-
-				// If this token is a LPAREN and the next token is anything besides the RPAREN,
-				// that means that this LPAREN is starting a new list of exps inside of an exp
-				// and the next token is the start of the new inner list
-				else {
-					return new Cons (							// Make a Cons node
-						new Cons(								// car
-							parseExp(t2),							// car - the next token
-							parseRest(),		// cdr - the parseRest of the next-next token
-							cn++									//
-						),
-						parseRest (),		//cdr - the parseRest of the next-next-next token
-						cn++
-					);
-				}
 			}
 
 			// At this point, we know that this token is an exp
@@ -202,7 +189,9 @@ namespace Parse {
 
 		}
 
-		// Parse the rest of the list
+		// Parse the rest of the list into a node
+		// If not given a token to parse, get one
+
         protected Node parseRest() {
 			Token t = scanner.getNextToken();
 			return makeRest(t);

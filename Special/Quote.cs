@@ -5,7 +5,7 @@ using System;
 namespace Tree {
 
     public class Quote : Special {
-        
+
         private bool isRoot = false;
         private bool charQuote = true; // strQuote = !charQuote
         private  int depth;
@@ -31,20 +31,19 @@ namespace Tree {
                     Console.Write("(");
                     if (!t.getCdr().isNil()) {
                         t = t.getCdr();
+                        t.print(0, true);
                     }
-                    t.print(0, true);
+                    else {
+                        t.getCdr().print(0, true);
+                    }
                 }
                 else {
                     if (t.getCar().isPair()) {
-                        //depth++;
                         Console.Write("(");
                     }
                     t.getCar().print(0, false);
                     if (!t.getCdr().isNil() && !isRoot) {
                         Console.Write(" ");
-                    }
-                    else {
-                        //depth--;
                     }
                     t.getCdr().print(0, true);
                 }

@@ -125,7 +125,6 @@ namespace Tree {
         }
 
         public override void print(int n) {
-            //Console.WriteLine("consprint1");
             form.print(this, n, false);
             /*
 			Console.WriteLine("cons" + cn);
@@ -138,7 +137,6 @@ namespace Tree {
         }
 
         public override void print(int n, bool p) {
-            //Console.WriteLine("consprint2");
             form.print(this, n, p);
         }
     }
