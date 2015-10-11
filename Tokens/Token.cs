@@ -6,17 +6,11 @@ namespace Tokens {
 
         private TokenType tt;
 
-        public Token(TokenType t) {
-            tt = t;
-        }
+        public Token(TokenType t) { tt = t; }
 
-        public TokenType getType() {
-            return tt;
-        }
+        public TokenType getType() { return tt; }
 
-        public virtual void print() {
-
-        }
+        public virtual void print() { }
 
         public virtual int    getIntVal()    { return 0; }
         public virtual string getStringVal() { return ""; }
