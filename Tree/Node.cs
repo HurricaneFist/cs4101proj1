@@ -32,6 +32,8 @@ namespace Tree
             return "";
         }
 
+        public virtual void setFormToQuote(bool b, int d) { }
+
         public virtual void setForm(Special p) { }
 
         public virtual void setFormToRegular() { }

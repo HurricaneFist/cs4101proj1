@@ -38,13 +38,23 @@ namespace Tree {
             }
         }
 
-        public override void setFormToRegular(bool quoteString) {
-            form = new Regular(true, quoteString);
+        public override void setFormToRegular(bool b) {
+            form = new Regular(true, b);
             if (car.isPair()) {
                 car.setFormToRegular();
             }
             if (cdr.isPair()) {
-                cdr.setFormToRegular(quoteString);
+                cdr.setFormToRegular(b);
+            }
+        }
+
+        public override void setFormToQuote(bool b, int d) {
+            form = new Quote(b, d);
+            if (car.isPair()) {
+                car.setFormToQuote(b, d+1);
+            }
+            if (cdr.isPair()) {
+                cdr.setFormToQuote(b, d);
             }
         }
 
@@ -68,12 +78,12 @@ namespace Tree {
                 //Console.Write(cn + " " + name);
 
                 if (name == "\'") {
-					form = new Quote ();
-                    Console.WriteLine("  quote");
+					form = new Quote (true, true);
+                    Console.WriteLine("  charQuote");
 				}
                 else if (String.Compare(name, "quote", true) == 0) {
-                    form = new Quote(true);
-                    Console.WriteLine("  quoteString");
+                    form = new Quote(false, true);
+                    Console.WriteLine("  strQuote");
                 }
                 else if (String.Compare(name, "lambda", true) == 0) {
 					form = new Lambda ();
