@@ -6,9 +6,7 @@ namespace Tree {
 
     public class Begin : Special {
 
-        public int numIndents = 0; // ***NOTE: this variable seems unused
-
-		    public Begin() { }
+	    public Begin() { }
 
         public override void print(Node t, int n, bool p) {
             // Indent (if necessary)
@@ -21,20 +19,27 @@ namespace Tree {
                     cdr = t.getCdr();
 
             Console.Write("(");     // (
-            car.print(n, true);     // begin
-            Console.WriteLine();
-            n++;
+            car.print(n, true);     // Begin
+            Console.WriteLine();    // Carriage return
+            n++;                    // Increase indentation
+
+            t.setForm(new Regular(false));
 
             while (!cdr.isNil()) {
-                // Indent the parameters of begin
+                // Indent the parameters of begin if necessary
                 for (int i = 0; i < n; i++) {
                     Console.Write("    ");
                 }
+                // Print the cadr
+                // (This implicitly recurs on the left of the tree)
                 cdr.getCar().print(0, false);
+                Console.WriteLine();
+                // Recur on the right of the tree.
                 cdr = cdr.getCdr();
             }
 
-            // Print the final right parenthesis
+            // Print the final right parenthesis with no indentation
+            // and carriage return
             cdr.print(0, true);
             Console.WriteLine();
         }

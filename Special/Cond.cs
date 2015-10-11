@@ -14,8 +14,6 @@ namespace Tree {
                 Console.Write("    ");
             }
 
-            t.setFormToRegular();
-
             // Get the car and cdr
             Node    car = t.getCar(),
                     cdr = t.getCdr();
@@ -23,22 +21,26 @@ namespace Tree {
             Console.Write("(");     // (
             car.print(n, true);     // Condition
             Console.WriteLine();    // Carriage return
-            n++;                    // Increase indentation
+            n++;                    // Increase indentation for the
+                                    // subsequent arguments
 
-            while (!cdr.isNil()) {
-                // Indent the parameters of cond
-                for (int i = 0; i < n; i++) {
+            t.setForm(new Regular(false));
+
+            while (!cdr.isNil()) {  // Print cond's conditions and expressions
+                for (int i = 0; i < n; i++) {   // Indent the parameters of cond
                     Console.Write("    ");
                 }
-                cdr.getCar().print(0, false);
-                Console.WriteLine();
-                cdr = cdr.getCdr();
+                cdr.getCar().print(0, false);   // Implicitly recur on cars
+                Console.WriteLine();            // Carriage return
+                cdr = cdr.getCdr();     // Recur down the right side of the tree
             }
 
-            n--;                    // Decrease indentation
+            // Decrease indentation because only the arguments needed to
+            // be indented
+            n--;
 
-            // Print the final right parenthesis and
-            // Indent (if necessary)
+            // Indent (if necessary), print the final right parenthesis and the
+            // final carriage return
             for (int i = 0; i < n; i++) {
                 Console.Write("    ");
             }

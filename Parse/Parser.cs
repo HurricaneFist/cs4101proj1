@@ -121,8 +121,12 @@ namespace Parse {
 			// Make a check to see if the current token is a LPAREN, because
 			// if it is, then that is indicative that there exists an empty or
 			// non-empty list within the current list context
-			if (tt1 == TokenType.LPAREN) {
 
+			// Identifying LPARENs when using token look-ahead takes highest
+			// priority because it is critical to recognize empty lists, which
+			// are LPAREN-RPAREN pairs, as soon as possible
+
+			if (tt1 == TokenType.LPAREN) {
 				// If this and the next token are a LPAREN-RPAREN pair, we
 				// are seeing a an empty list within a list.
 				// Return a Cons node whose car is Nil and cdr is the parsing

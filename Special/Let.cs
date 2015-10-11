@@ -26,11 +26,14 @@ namespace Tree {
             Console.WriteLine();
             n++;
 
+            t.setForm(new Regular(false));
+
             while (!cdr.isNil()) {
                 // Indent and print all parameters (cadrs) recursively
                 for (int i = 0; i < n; i++)
                     Console.Write("    ");
                 cdr.getCar().print(0, false);
+                Console.WriteLine();
                 cdr = cdr.getCdr();
             }
 

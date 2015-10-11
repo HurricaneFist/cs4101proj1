@@ -1,1 +1,0 @@
-(begin (set! x 6) (function y 7) (* x y))
