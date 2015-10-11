@@ -10,6 +10,8 @@ Design:
 
     We tried to implement parseExp and parseRest such that it mimicked the grammar as much as possible. The biggest issue was recognizing empty lists so that we could put them into the cars of Cons nodes. We set it up so that when parseRest is called, it then calls a helper function which checks if the token it is looking at and the token ahead of it are a LPAREN-RPAREN pair, and if it is, then that establishes that there exists an empty list in the car of this Cons node.
 
+    We approached pretty printing such that all nodes aside from Cons nodes only print their values and no whitespace. Only the Special forms handle whitespace. The Regular class only printed space bars, " ", where it was necessary, did not handle indentations because other Special classes dependent upon it, and by default printed carriage returns unless a message was passed telling it not to.  Therefore, all other Special classes printed any other whitespace, including single spaces (" "), 4-space indentations, and carriage returns.
+
     Because many of the Special forms required expressions to be printed regularly, our implementation uses that dependency to define many of the dependent forms, such as Begin, Let, and Cond. We created functions that alter the forms of already-parsed Cons nodes, namely setting their forms to Regular. Those functions perform recursively and set all of their child nodes' trees' forms to Regular as well. We also created different constructors of Regular to serve the different purposes that Regular was being used for. To do that, we used boolean variables to pass messages down the tree when the Set-Form functions are called.
 
     Much more detailed information can be found in comments in the classes' and their functions' definitions.
