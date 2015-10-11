@@ -32,12 +32,13 @@ namespace Tree {
             }
             cadr.print(0, false);
             if (isFunc){
-                //Console.WriteLine();
                 n++;
                 caddr.print(n, false);
                 n--;
             }
             else{
+                Console.Write(" ");
+                caddr.setFormToRegular();
                 caddr.print(0, false);
             }
 
