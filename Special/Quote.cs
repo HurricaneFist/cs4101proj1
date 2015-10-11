@@ -5,6 +5,7 @@ using System;
 namespace Tree {
 
     public class Quote : Special {
+        
         private bool isRoot = false;
         private bool charQuote = true; // strQuote = !charQuote
         private  int depth;
@@ -19,34 +20,6 @@ namespace Tree {
             isRoot = root;
             depth = 0;
         }
-        /*
-        public override void print(Node t, int n, bool p) {
-            for (int i = 0; i < n; i++)
-                Console.Write("    ");
-            if (isRoot)
-                Console.Write("\'");
-            if (!p)
-                Console.Write("(");
-            t.setFormToQuote(charQuote);
-
-            if (charQuote){
-                while (t.getCdr().isPair()) {
-                    t = t.getCdr();
-                    Node car = t.getCar();
-                    Node cdr = t.getCdr();
-                    while (car.isPair()) {
-                        car = car.getCar();
-                    }
-                    car.print(0, true);
-
-                    Console.Write(" ");
-                }
-            }
-            else { //(strQuote)
-
-            }
-
-        }*/
 
         public override void print(Node t, int n, bool p) {
             for (int i = 0; i < n; i++)
@@ -87,33 +60,25 @@ namespace Tree {
                     t.print(0, true);
                 }
                 else {
-                    //depth++;
                     if (t.getCar().isPair()) {
-                        //Console.Write("[{0}]", depth);
                         Console.Write("(");
                     }
                     t.getCar().print(0, false);
-                    //Console.Write("[{0}]", depth);
                     if (!t.getCdr().isNil()) {
                         Console.Write(" ");
                         t.getCdr().print(0, true);
                     }
                     else {
-                        //Console.Write("[{0}!]", depth);
                         if (depth != 0) {
                             t.getCdr().print(0, true);
                         }
                         else {
                             Console.WriteLine();
                         }
-                        //depth--;
-                        //if (depth == 0)
-                        //    Console.WriteLine(depth);
-
-                        //Console.Write("[{0}*~]", depth);
                     }
                 }
             }
+
         }
 
     }
