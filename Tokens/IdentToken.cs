@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // IdentToken -- Token object for representing identifiers.
 using System;
 

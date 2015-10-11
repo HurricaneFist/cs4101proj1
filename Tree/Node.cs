@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // Node -- Base class for parse tree node objects
 using System;
 
@@ -47,11 +56,20 @@ namespace Tree {
         public virtual bool isNil()    { return false; }  // Nil
         public virtual bool isPair()   { return false; }  // Cons
 
-        public virtual Node getCar() { Console.Error.WriteLine("Cannot get car of a node other than Cons"); }
-        public virtual Node getCdr() { Console.Error.WriteLine("Cannot get cdr of a node other than Cons"); }
-        
-        public virtual void setCar(Node a) { Console.Error.WriteLine("Cannot set car of a node other than Cons"); }
-        public virtual void setCdr(Node d) { Console.Error.WriteLine("Cannot set cdr of a node other than Cons"); }
+        public virtual Node getCar() {
+            Console.Error.WriteLine("Cannot get car of a node other than Cons");
+            return null;
+        }
+        public virtual Node getCdr() {
+            Console.Error.WriteLine("Cannot get cdr of a node other than Cons");
+            return null;
+        }
+        public virtual void setCar(Node a) {
+            Console.Error.WriteLine("Cannot set car of a node other than Cons");
+        }
+        public virtual void setCdr(Node d) {
+            Console.Error.WriteLine("Cannot set cdr of a node other than Cons");
+        }
 
     }
 }

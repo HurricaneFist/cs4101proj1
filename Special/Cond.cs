@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // Cond -- Parse tree node strategy for printing the special form cond
 
 using System;
@@ -24,6 +33,9 @@ namespace Tree {
             n++;                    // Increase indentation for the
                                     // subsequent arguments
 
+            // Set form to regular so it can all print on the same line
+            // Use false parameter to tell the regular form to not print the
+            // carriage return
             t.setForm(new Regular(false));
 
             while (!cdr.isNil()) {  // Print cond's conditions and expressions
@@ -44,6 +56,8 @@ namespace Tree {
             for (int i = 0; i < n; i++) {
                 Console.Write("    ");
             }
+
+            // Print final right paren and carriage return
             cdr.print(0, true);
             Console.WriteLine();
         }

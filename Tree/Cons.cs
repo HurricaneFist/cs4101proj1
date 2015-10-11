@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // Cons -- Parse tree node class for representing a Cons node
 
 using System;

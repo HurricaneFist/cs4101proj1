@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // Set -- Parse tree node strategy for printing the special form set!
 
 using System;
@@ -17,12 +26,15 @@ namespace Tree {
 
             // Get the car, cdr, cadr, cddr, caddr, cdddr
 
-			      Node car   = t.getCar   (),  // set!
+		    Node car   = t.getCar   (), // set!
+
                  cdr   = t.getCdr   (),
-                 cadr  = cdr.getCar (),  // ident
+                 cadr  = cdr.getCar (), // ident
+
                  cddr  = cdr.getCdr (),
-                 caddr = cddr.getCar(),  // ident, string, int, or list
-                 cdddr = cddr.getCdr();  // nil
+                 caddr = cddr.getCar(), // ident, string, int, or list
+
+                 cdddr = cddr.getCdr(); // nil
 
             // If the left parenthesis has not yet been printed, print it
 
@@ -31,13 +43,15 @@ namespace Tree {
 
 
             t.setFormToRegular();
-            car.print(n, true); // set!
+            car.print(n, true);     // set!
             Console.Write(" ");
-            cadr.print(n, true); // param1
+            cadr.print(n, true);    // param1
             Console.Write(" ");
 
-            caddr.print(n, false); // param2
-            cdddr.print(n, true); // The final right parenthesis
+            caddr.print(n, false);  // param2
+
+            // Print the final right parenthesis and carriage return
+            cdddr.print(n, true);
             Console.WriteLine();
         }
 

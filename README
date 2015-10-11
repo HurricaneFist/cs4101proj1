@@ -1,20 +1,21 @@
-In the README file, briefly explain how you designed your program and what works and what doesn’t. If there are problems with your submission, include any information that would make it easier for the grader to give you partial credit.
-
 Project Members:
     Bobby Kong,
     Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
 
 Design:
-        Using identifier definitions from the Revised Scheme Report and our general knowledge of Scheme, the lexical analyzer implemented by the Scanner class's getNextToken function takes characters one at a time from standard input and makes appropriate tokens out of them, even for tokens with values that span across up to 1000 characters.
+    Using identifier definitions from the Revised Scheme Report and our general knowledge of Scheme, the lexical analyzer we implemented by the Scanner class's getNextToken function takes characters one at a time from standard input and makes appropriate tokens out of them, even for tokens with values that span up to 1000 characters.
 
-        
+    We tried to implement parseExp and parseRest such that it mimicked the grammar as much as possible. The biggest issue was recognizing empty lists so that we could put them into the cars of Cons nodes. We set it up so that when parseRest is called, it then calls a helper function which checks if the token it is looking at and the token ahead of it are a LPAREN-RPAREN pair, and if it is, then that establishes that there exists an empty list in the car of this Cons node.
 
-        Much more detailed information can be found in comments in the classes' and their functions' definitions.
+    Because many of the Special forms required expressions to be printed regularly, our implementation uses that dependency to define many of the dependent forms, such as Begin, Let, and Cond. We created functions that alter the forms of already-parsed Cons nodes, namely setting their forms to Regular. Those functions perform recursively and set all of their child nodes' trees' forms to Regular as well. We also created different constructors of Regular to serve the different purposes that Regular was being used for. To do that, we used boolean variables to pass messages down the tree when the Set-Form functions are called.
 
-What Works:
+    Much more detailed information can be found in comments in the classes' and their functions' definitions.
 
-
-What Does Not Work:
-
+What Works and What Does Not Work:
+    To the extent of our knowledge, all of our test cases are pretty printing the way they should, including expressions with empty lists. I believe that for unordinary input, or bad Scheme code, the pretty printer will still try to make sense of what it has been given and will most likely output incorrect pretty prints.
 
 Additional Information:
+    SPP.cs and Makefile were not changed in any substantial way, so running the program with the command "cat | mono SPP.exe" should work as expected.

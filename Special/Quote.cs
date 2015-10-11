@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // Quote -- Parse tree node strategy for printing the special form quote
 
 using System;
@@ -28,7 +37,7 @@ namespace Tree {
             for (int i = 0; i < n; i++)
                 Console.Write("    ");
 
-                
+
             if (charQuote) {
                 if (isRoot) {
                     t.setFormToQuote(charQuote, depth);

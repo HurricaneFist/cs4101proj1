@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // Begin -- Parse tree node strategy for printing the special form begin
 
 using System;
@@ -23,6 +32,9 @@ namespace Tree {
             Console.WriteLine();    // Carriage return
             n++;                    // Increase indentation
 
+            // Set form to regular so it can all print on the same line
+            // Use false parameter to tell the regular form to not print the
+            // carriage return
             t.setForm(new Regular(false));
 
             while (!cdr.isNil()) {

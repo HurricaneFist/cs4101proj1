@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // Parser -- the parser for the Scheme printer and interpreter
 //
 // Defines
@@ -44,9 +53,6 @@ namespace Parse {
 		// Take a Scanner object as input
         private Scanner scanner;
 
-		// Tool used to keep track of cons nodes for debugging
-		public int cn = 0;
-
 		// Initialize nodes that only ever need to be created once
 		// All false, true, and nil nodes will simply be pointers to these nodes
 
@@ -80,8 +86,7 @@ namespace Parse {
 			else if (tt == TokenType.QUOTE)	{
 				return new Cons (
 					new Ident ("\'"),
-					parseExp (),
-					cn++
+					parseExp ()
 				);
 			}
 
@@ -91,7 +96,6 @@ namespace Parse {
 			else if (tt == TokenType.INT)    return new IntLit(t.getIntVal());
 			else if (tt == TokenType.STRING) return new StringLit(t.getStringVal());
 			else /*(tt == TokenType.IDENT)*/ return new Ident(t.getName());
-
 		}
 
 		// Parse the next exp into a node
@@ -134,8 +138,7 @@ namespace Parse {
 				if (tt2 == TokenType.RPAREN) {
 					return new Cons (
 						nodeNil,
-						parseRest(),
-						cn++);
+						parseRest());
 				}
 
 				// If this token is a LPAREN and the next token is anything,
@@ -146,13 +149,11 @@ namespace Parse {
 					return new Cons (		// Make a Cons node
 						new Cons(			// Car
 							parseExp(t2),	// Car's car - the next token
-							parseRest(),	// Car's cdr - the parseRest of the
+							parseRest()		// Car's cdr - the parseRest of the
 											// next-next token
-							cn++			//
 						),
-						parseRest (),		// Cdr - the parseRest of the
+						parseRest ()		// Cdr - the parseRest of the
 											// next-next-next token
-						cn++
 					);
 				}
 			}
@@ -162,7 +163,7 @@ namespace Parse {
 			// and parse the next-next token as an exp
 			// because we know it will be the last exp since it follows a DOT
 			if (tt2 == TokenType.DOT) {
-				return new Cons (parseExp(t1), parseExp(), cn++);
+				return new Cons (parseExp(t1), parseExp());
 			}
 
 			// If the next token is a RPAREN,
@@ -170,7 +171,7 @@ namespace Parse {
 			// return a Cons node that parses the current token in its car
 			// and puts Nil in its cdr
 			else if (tt2 == TokenType.RPAREN) {
-				return new Cons (parseExp(t1), nodeNil, cn++);
+				return new Cons (parseExp(t1), nodeNil);
 			}
 
 			// At this point, we know that this token is an exp
@@ -182,15 +183,13 @@ namespace Parse {
 			// and the cddr be the parsing of the rest of the list
 			else {
 				return new Cons(
-				parseExp(t1),
-				new Cons(
-					parseExp(t2),
-					parseRest(),
-					cn++
-				),
-				cn++);
+					parseExp(t1),
+					new Cons(
+						parseExp(t2),
+						parseRest()
+					)
+				);
 			}
-
 		}
 
 		// Parse the rest of the list into a node

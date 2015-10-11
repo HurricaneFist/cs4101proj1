@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // SPP -- The main program of the Scheme pretty printer.
 
 using System;
@@ -50,7 +59,6 @@ public class SPP
 
         // Parse and pretty-print each input expression
         root = parser.parseExp();
-
         while (root != null)
         {
             root.print(0);
