@@ -10,6 +10,9 @@ namespace Tree {
         public Define() { }
 
         public override void print(Node t, int n, bool p) {
+
+            // Get the car, cdr, cadr, cddr, caddr, and cdddr
+
             Node car    = t.getCar();
             Node cdr    = t.getCdr();
 
@@ -19,6 +22,8 @@ namespace Tree {
             Node caddr  = cddr.getCar();
             Node cdddr  = cddr.getCdr();
 
+            // Indent (if necessary)
+
             for (int i = 0; i < n; i++){
                 Console.Write("    ");
             }
@@ -27,21 +32,36 @@ namespace Tree {
             car.print(0, true);
             Console.Write(" ");
 
+            // If the cadr (first parameter) is a cons node, then define is a
+            // function definition
+
             if (cadr.isPair()) {
                 isFunc = true;
             }
             cadr.print(0, false);
+<<<<<<< HEAD
             if (isFunc){
+=======
+
+            if (isFunc) {
+                // If it's a function definition, indent and print the
+                // definition
+>>>>>>> origin/prettyPrinter
                 n++;
                 caddr.print(n, false);
                 n--;
             }
+<<<<<<< HEAD
             else{
                 Console.Write(" ");
                 caddr.setFormToRegular();
+=======
+            else { // Otherwise, don't indent and just print the second param
+>>>>>>> origin/prettyPrinter
                 caddr.print(0, false);
             }
 
+            // Print the final right parenthesis
             cdddr.print(n, true);
             Console.WriteLine();
         }

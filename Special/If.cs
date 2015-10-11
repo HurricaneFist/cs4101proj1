@@ -9,23 +9,30 @@ namespace Tree {
 	public If() { }
 
         public override void print(Node t, int n, bool p) {
+
+            // Indent (if necessary)
+
             for (int i = 0; i < n; i++)
                 Console.Write("    ");
+
+            // Get the car, cdr, cadr, cddr, cdddr, cddddr, caddr, and cadddr
 
             Node car    = t.getCar    (),   // if
                  cdr    = t.getCdr    (),
                  cadr   = cdr.getCar  (),   // condition
                  cddr   = cdr.getCdr  (),
                  cdddr  = cddr.getCdr (),
-                 cddddr = cdddr.getCdr(), // nil
-                 caddr  = cddr.getCar (),   // true
-                 cadddr = cdddr.getCar();   // false
+                 cddddr = cdddr.getCdr(),   // final right parenthesis
+                 caddr  = cddr.getCar (),   // case if (condition)
+                 cadddr = cdddr.getCar();   // case if (!condition)
 
+            // Print "(if "
             Console.Write("(");
-            car.print(0, true);    // (if
+            car.print(0, true);
             Console.Write(" ");
 
-            cadr.print(0, false);   //    (= n 0)
+            // Print the condition
+            cadr.print(0, false);
 
             if (!caddr.isPair()){
                 n++;
@@ -34,27 +41,29 @@ namespace Tree {
             }
 
             caddr.print(n, false);
+
             if (!caddr.isPair()){
                 Console.WriteLine();
             }
+
             if (cadddr.isPair()){
                 cadddr.setForm(new Regular(false));
-                //for (int i = 0; i < n; i++)
-                //    Console.Write("    ");
             }
+
             if (!caddr.isPair()){
                 for (int i = 0; i < n; i++)
                     Console.Write("    ");
                 n--;
             }
+
             cadddr.print(0, false);
 
-            if (!cadddr.isPair()){
-            //    Console.WriteLine();
-            }
             Console.WriteLine();
+
             for (int i = 0; i < n; i++)
                 Console.Write("    ");
+
+            // Print the final right parenthesis
             cddddr.print(n, true);
             Console.WriteLine();
         }

@@ -6,16 +6,17 @@ namespace Tree {
 
     public class Begin : Special {
 
-        public int numIndents = 0;
+        public int numIndents = 0; // ***NOTE: this variable seems unused
 
-		public Begin() { }
+		    public Begin() { }
 
         public override void print(Node t, int n, bool p) {
-            // Indent
+            // Indent (if necessary)
             for (int i = 0; i < n; i++) {
                 Console.Write("    ");
             }
 
+            // Get the car and cdr
             Node    car = t.getCar(),
                     cdr = t.getCdr();
 
@@ -23,8 +24,9 @@ namespace Tree {
             car.print(n, true);     // begin
             Console.WriteLine();
             n++;
+
             while (!cdr.isNil()) {
-                // Indent
+                // Indent the parameters of begin
                 for (int i = 0; i < n; i++) {
                     Console.Write("    ");
                 }
@@ -32,6 +34,7 @@ namespace Tree {
                 cdr = cdr.getCdr();
             }
 
+            // Print the final right parenthesis
             cdr.print(0, true);
             Console.WriteLine();
         }

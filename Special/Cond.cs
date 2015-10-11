@@ -9,20 +9,24 @@ namespace Tree {
         public Cond() { }
 
         public override void print(Node t, int n, bool p) {
-            // Indent
+            // Indent (if necessary)
             for (int i = 0; i < n; i++) {
                 Console.Write("    ");
             }
+
             t.setFormToRegular();
+
+            // Get the car and cdr
             Node    car = t.getCar(),
                     cdr = t.getCdr();
 
             Console.Write("(");     // (
-            car.print(n, true);     // begin
+            car.print(n, true);     // cond
             Console.WriteLine();
             n++;
+
             while (!cdr.isNil()) {
-                // Indent
+                // Indent the parameters of cond
                 for (int i = 0; i < n; i++) {
                     Console.Write("    ");
                 }
@@ -31,6 +35,7 @@ namespace Tree {
                 cdr = cdr.getCdr();
             }
 
+            // Print the final right parenthesis
             cdr.print(0, true);
             Console.WriteLine();
         }
