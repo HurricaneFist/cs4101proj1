@@ -5,10 +5,14 @@ using System;
 namespace Tree {
 
     public class Regular : Special {
-        private bool regulate = false, hasMessage = false;
+        private bool regulate = false, hasMessage = false, CR = true;
         public int depth = 0;
 
         public Regular() { }
+
+        public Regular(bool cr) {
+            CR = cr;
+        }
 
         public Regular(bool r, bool quoteString) {
             regulate = r;
@@ -20,12 +24,6 @@ namespace Tree {
 
         public override void print(Node t, int n, bool p) {
 
-            // Print indentations
-
-            for (int i = 0; i < n; i++) {
-                Console.Write("    ");  // Four spaces
-            }
-
             if (!p) {                   // If '(' has not been printed
                 Console.Write("(");     // Print one
             }
@@ -34,7 +32,7 @@ namespace Tree {
             if (regulate) {
                 t.getCdr().setFormToRegular();
             }
-            //Console.WriteLine("$$$");
+
             // Print car while handling empty lists inside of lists
             if (t.getCar().isNil()) {
                 Console.Write("()");
@@ -46,7 +44,6 @@ namespace Tree {
                 }
                 car.print(n, false);
             }
-            //Console.WriteLine("@@@");
 
 
             // Print a space if we have not reached the end of the list
@@ -54,8 +51,6 @@ namespace Tree {
             if (!t.getCdr().isNil()) {
                 Console.Write(" ");
             }
-            //Console.WriteLine("###");
-            //Console.WriteLine(t.getCdr().isPair());
             Node cdr = t.getCdr();
             if (cdr.isNil()) {
                 if (!hasMessage) {
@@ -63,7 +58,8 @@ namespace Tree {
                     if (regulate) {
                         depth--;
                     }
-                    if (depth == 0) {
+                    //Console.WriteLine("CR = " + CR);
+                    if (depth == 0 && CR) {
                         Console.WriteLine();
                     }
                 }

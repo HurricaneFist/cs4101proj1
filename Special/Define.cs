@@ -5,45 +5,40 @@ using System;
 namespace Tree {
 
     public class Define : Special {
+        private bool isFunc = false;
 
         public Define() { }
 
         public override void print(Node t, int n, bool p) {
+            Node car    = t.getCar();
+            Node cdr    = t.getCdr();
 
-            Node car  = t.getCar();
-            Node cdr  = t.getCdr();
-            Node cadr = cdr.getCar();
-            Node cddr = cdr.getCdr();
-            Node caddr = cddr.getCar();
-            Node cdddr = cddr.getCdr(); // Must be Nil
-            bool isFunc = false;
+            Node cadr   = cdr.getCar();
+            Node cddr   = cdr.getCdr();
 
-            if (cadr.isPair()){
+            Node caddr  = cddr.getCar();
+            Node cdddr  = cddr.getCdr();
+
+            for (int i = 0; i < n; i++){
+                Console.Write("    ");
+            }
+
+            Console.Write("(");
+            car.print(0, true);
+            Console.Write(" ");
+
+            if (cadr.isPair()) {
                 isFunc = true;
             }
-
-            if (!p) {
-                Console.Write("(");
-            }
-
-            car.print(n, true);
-            Console.Write(" ");
-            cadr.print(n, true);
-
-
-            // Indent stuff
-            if (isFunc) {
-                Console.WriteLine();
+            cadr.print(0, false);
+            if (isFunc){
+                //Console.WriteLine();
                 n++;
-            }
-            else {
-                Console.Write(" ");
-            }
-
-            caddr.print(n, true);
-
-            if (isFunc) {
+                caddr.print(n, false);
                 n--;
+            }
+            else{
+                caddr.print(0, false);
             }
 
             cdddr.print(n, true);

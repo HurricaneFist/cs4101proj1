@@ -32,7 +32,9 @@ namespace Tree
             return "";
         }
 
-        public virtual void setFormToRegular() {}
+        public virtual void setForm(Special p) { }
+
+        public virtual void setFormToRegular() { }
 
         public virtual void setFormToRegular(bool b) {}
 

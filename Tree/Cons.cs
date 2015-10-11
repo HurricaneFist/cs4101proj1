@@ -18,6 +18,16 @@ namespace Tree {
             parseList();
         }
 
+        public override void setForm(Special newForm) {
+            form = newForm;
+            if (car.isPair()) {
+                car.setForm(newForm);
+            }
+            if (cdr.isPair()) {
+                cdr.setForm(newForm);
+            }
+        }
+
         public override void setFormToRegular() {
             form = new Regular(true, false);
             if (car.isPair()) {

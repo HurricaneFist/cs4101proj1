@@ -3,7 +3,7 @@
 using System;
 
 namespace Tree {
-    
+
     public class If : Special {
 
 	public If() { }
@@ -22,33 +22,40 @@ namespace Tree {
                  cadddr = cdddr.getCar();   // false
 
             Console.Write("(");
-            car.print(n, true);    // (if
+            car.print(0, true);    // (if
             Console.Write(" ");
 
-            cadr.print(n++, false);   //    (= n 0)
+            cadr.print(0, false);   //    (= n 0)
 
             if (!caddr.isPair()){
+                n++;
                 for (int i = 0; i < n; i++)
                     Console.Write("    ");
             }
 
-            caddr.print(n, false);  //            1
-
+            caddr.print(n, false);
             if (!caddr.isPair()){
                 Console.WriteLine();
             }
-
-            if (!cadddr.isPair()){
+            if (cadddr.isPair()){
+                cadddr.setForm(new Regular(false));
+                //for (int i = 0; i < n; i++)
+                //    Console.Write("    ");
+            }
+            if (!caddr.isPair()){
                 for (int i = 0; i < n; i++)
                     Console.Write("    ");
+                n--;
             }
-            cadddr.print(n--, false); //              2
+            cadddr.print(0, false);
 
             if (!cadddr.isPair()){
-                Console.WriteLine();
+            //    Console.WriteLine();
             }
-
-            cddddr.print(n, true); //                )
+            Console.WriteLine();
+            for (int i = 0; i < n; i++)
+                Console.Write("    ");
+            cddddr.print(n, true);
             Console.WriteLine();
         }
 
