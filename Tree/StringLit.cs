@@ -1,26 +1,27 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // StringLit -- Parse tree node class for representing string literals
 
 using System;
 
-namespace Tree
-{
-    public class StringLit : Node
-    {
+namespace Tree {
+
+    public class StringLit : Node {
+
         private string stringVal;
 
-        public StringLit(string s)
-        {
-            stringVal = s;
-        }
+        public StringLit(string s) { stringVal = s; }
 
-        public override void print(int n)
-        {
-	    // There got to be a more efficient way to print n spaces.
-	    for (int i = 0; i < n; i++)
-                Console.Write(" ");
+		public override bool isString() { return true; }
 
-            Console.WriteLine("\"" + stringVal + "\"");
-        }
+        public override void print(int n) { Console.Write("\"" + stringVal + "\""); }
+
     }
 }
-

@@ -1,3 +1,12 @@
+/*
+Project Members:
+    Bobby Kong,
+    Ian Lee
+Dr. Gerald Baumgartner
+CSC 4101, Section 1
+October 11, 2015
+*/
+
 // SPP -- The main program of the Scheme pretty printer.
 
 using System;
@@ -11,14 +20,14 @@ public class SPP
     {
         // Create scanner that reads from standard input
         Scanner scanner = new Scanner(Console.In);
-        
+
         if (args.Length > 1 ||
             (args.Length == 1 && ! args[0].Equals("-d")))
         {
             Console.Error.WriteLine("Usage: mono SPP [-d]");
             return 1;
         }
-        
+
         // If command line option -d is provided, debug the scanner.
         if (args.Length == 1 && args[0].Equals("-d"))
         {
@@ -50,7 +59,7 @@ public class SPP
 
         // Parse and pretty-print each input expression
         root = parser.parseExp();
-        while (root != null) 
+        while (root != null)
         {
             root.print(0);
             root = parser.parseExp();
