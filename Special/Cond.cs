@@ -21,7 +21,7 @@ namespace Tree {
                     cdr = t.getCdr();
 
             Console.Write("(");     // (
-            car.print(n, true);     // begin
+            car.print(n, true);     // cond
             Console.WriteLine();
             n++;
 
